@@ -1,0 +1,20 @@
+apiVersion: v2   #v1-helm1 ,v2-heml2
+appVersion: 5.8.1  
+version: 12.1.27  #chart本身的版本
+name: wordpress
+description: Web publishing platform for building blogs and websites.
+type: application
+dependencies:  #对其他chart的依赖
+    - condition: mariadb.enabled
+      name: mariadb
+      repository: https://charts.bitnami.com/bitnami
+      version: 9.x.x
+keywords: 
+   - application
+   - blog
+   - wordpress
+maintainers:  #维护人信息
+   - email: containers@bitnami.com
+     name: Bitnami
+     home: https://github.com/bitnami/charts/tree/master/bitnami/wordpress
+     icon: https://bitnami.com/assets/stacks/wordpress/img/wordpress-stack-220x234.png

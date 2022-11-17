@@ -1,0 +1,5 @@
+git clone https://github.com/kodekloudhub/go-webapp-sample.git
+
+go run main.go
+go test -v .
+项目端口 8000

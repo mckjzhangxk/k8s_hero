@@ -1,0 +1,11 @@
+# Default values for mpc-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: registry.cn-beijing.aliyuncs.com/bjy-webrtc/mpc
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "bigroom22101902"

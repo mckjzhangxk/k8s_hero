@@ -1,0 +1,2 @@
+replicaCount: 11
+image: nginx

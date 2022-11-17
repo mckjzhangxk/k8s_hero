@@ -1,0 +1,29 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: exchangeip
+  namespace: brtc-test-latest
+  labels:
+    app: exchangeip
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: exchangeip
+  template:
+    metadata:
+      labels:
+        app: exchangeip
+    spec:
+      volumes:
+        - name: volume-4k0qch
+          configMap:
+            name: exchangeipconfig
+      containers:
+        - name: container-ej44c8
+          image: 'harbor.baijiayun.com/brtc/exchangeip:latest'
+          volumeMounts:
+            - name: volume-4k0qch
+              readOnly: true
+              mountPath: /app/configs
+          imagePullPolicy: Always

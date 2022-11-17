@@ -1,0 +1,15 @@
+
+tmux new -s mysession 创建一个session
+tmux attach 加入上一个session
+tmux attach -t mysession 指定加入到那个session
+
+https://tmuxcheatsheet.com/
+
+(Ctrl+ b)+“ 水平分割
+(Ctrl+ b)+% 水平分割
+(Ctrl+ d)删除分割
+
+(Ctrl+ b)+d临时退出
+
+
+(Ctrl+ bj)+箭头  移动panel

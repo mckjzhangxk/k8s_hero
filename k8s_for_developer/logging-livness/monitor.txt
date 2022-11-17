@@ -1,0 +1,13 @@
+
+kubectl top node
+kubectl top node --sort-by='memory' |head -n 1
+kubectl top pod
+kubectl top pod  --sort-by='cpu' |head -n 1
+
+METRICS SERVER,Prometheus,Elastic Stac是用于检查 统计信息的服务解决方案
+
+
+METRICS SERVER部署
+A )git clone https://github.com/kodekloudhub/kubernetes-metrics-server.git
+
+B ) cd kubernetes-metrics-server && kubectl create -f .

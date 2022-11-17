@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: myjob
+spec:
+  completions: 3  #直到 完成 成功数量，才退出
+  parallelism: 4  #并发数量
+  ttlSecondsAfterFinished: 100
+  template:
+    spec:
+      containers:
+      - name: pi
+        image: ubuntu
+        command: ["expr",  "2", "+", "3"]
+      restartPolicy: Never  #退出后不重启

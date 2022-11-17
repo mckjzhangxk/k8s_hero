@@ -1,0 +1,13 @@
+apiVersion: batch/v1
+kind: Cronjob
+metadata:
+  name: mycronjob
+spec:
+  schedule: "*/1 * * * *"
+  template:
+    spec:
+      containers:
+      - name: pi
+        image: ububtu
+        command: ["expr",  "2", "3", "3"]
+      restartPolicy: Never  #退出后不重启

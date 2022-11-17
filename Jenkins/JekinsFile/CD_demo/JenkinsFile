@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+    //1.先按照go插件，go 插件用于下载特殊版本的 go，编译
+    //2.再再系统工具中添加 go 版本
+    // Ensure the desired Go version is installed for all stages,
+    tools { go '1.17' }
+
+    environment{
+        GO11MODULE='on'
+        GOPROXY='https://goproxy.cn'
+    }
+    stages{
+        stage('clone'){
+            steps{
+                git "https://github.com/kodekloudhub/go-webapp-sample.git"
+            }
+        }
+
+        stage('build'){
+            steps{
+                script{
+                    // Docker and Docker pipeline 需要安装的插件
+                    // docker.build是根据 Dockerfile 制作镜像，并且打tag
+                    image = docker.build("adminturneddevops/go-webapp-sample")
+                }
+            }
+        }
+    }
+
+}

@@ -1,0 +1,22 @@
+-P118 
+
+
+1.if
+
+{{- if .Values.role }}
+
+
+{{- end }} # -告诉helm 清除这一行
+
+
+2.if else if  else 
+
+{{- if .Values.role }}
+
+
+{{- else if eq .Values.role "hr" }}
+
+
+{{- else }}
+
+{{- end }}

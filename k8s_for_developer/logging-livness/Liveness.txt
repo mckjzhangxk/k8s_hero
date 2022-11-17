@@ -1,0 +1,3 @@
+Liveness(KodeKloud-Kubernetes-CKAD P201页)
+
+与Readyness概率差不多，就是健康检查，是在程序运行的时候执行的!

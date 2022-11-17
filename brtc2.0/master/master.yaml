@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: master-deployment
+  labels:
+    app: master-deployment
+  namespace: brtc-test-latest
+spec:
+  template:
+    metadata:
+      name: master
+      labels:
+        app: master-pod
+    spec:
+      containers:
+        - name: master
+          image: registry.cn-beijing.aliyuncs.com/bjy-webrtc/brtcmaster:v0.1.9.01
+          env:
+          - name: CONFIG_APOLLO_SECRET
+            value: 9d01995713a448bf9ad1b9db56f35e64
+          - name: CONFIG_APOLLO_URL
+            value: http://apollo-dev.baijiayun.com:8080
+          - name: CONFIG_APOLLO_APPID
+            value: K8sConfig
+          - name: CONFIG_APOLLO_CLUSTER
+            value: DEV
+          - name: CONFIG_APOLLO_NAMESPACE
+            value: master.yaml
+          - name: CONFIG_APOLLO_BACKUP_PATH
+            value: ./
+  replicas: 1
+  selector:
+    matchLabels:
+      app: master-pod
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: master-service
+  namespace: brtc-test-latest
+spec:
+  type: NodePort
+  selector:
+    app: master-pod
+  ports:
+    - targetPort: 8885
+      port: 8885

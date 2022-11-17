@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deployment
+  labels:
+    app: redis-deployment
+  namespace: training-common-test
+spec:
+  template:
+    metadata:
+      name: redis
+      labels:
+        app: redis-pod
+    spec:
+      containers:
+        - name: redis
+          image: redis
+          ports:
+            - containerPort: 6379
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-pod

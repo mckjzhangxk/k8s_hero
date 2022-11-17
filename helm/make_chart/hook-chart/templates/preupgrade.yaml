@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: bachup-db
+annotations:
+   "helm.sh/hook": pre-upgrade
+   "helm.sh/hook-weight": "5"  #权重小的先执行
+   "helm.sh/hook-delete-policy": hook-succeed
+spec:
+  template:
+    spec:
+      containers:
+      - name: bachup-db-pod
+        image: alpine
+        command: ["echo",  "Successful Installation"]
+      restartPolicy: Never  #退出后不重启

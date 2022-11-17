@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      readinessProbe:
+          initialDelaySeconds: 10  #开始等10s进行探测
+          periodSeconds: 4         #每过4秒探测一次
+          failureThreshold: 8      #8次失败任务服务不可用，默认3次
+          httpGet:
+          # 探测方法1,api探测
+            path: /api/ready
+            port: 8080
+          # 探测方法2,tcp端口探测
+          tcpSocket:
+            port: 3306
+          # 探测方法3.命令行
+          exec:
+            command:
+              - "cat"
+              - "/var/ready"

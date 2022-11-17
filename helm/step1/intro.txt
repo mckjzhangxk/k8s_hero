@@ -1,0 +1,11 @@
+k8s 没有把app当成一个主体，只关心我们创建的一个一个obj:pv,deployment
+helm 把这些obj统一管理， 配置变量提取出来，只需要 package Name
+一个helm包就可以安装
+
+helm install word
+helm upgrade word
+helm rollback word
+helm uninstall word
+helm version
+
+2.helm 是二进制文件，可以使用 snap install 安装

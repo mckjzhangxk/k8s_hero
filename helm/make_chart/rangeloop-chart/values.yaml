@@ -1,0 +1,19 @@
+environment: "foo"
+regions:
+  - "bj"
+  - "sh"
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  name: "zxk"
+  create: true
+  labels:
+    - frontend
+    - web
+    - proxy
+
+objects:
+  - name: "zxk"
+    age: 33
+  - name: "zhuxin"
+    age: 32

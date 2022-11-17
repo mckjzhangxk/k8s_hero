@@ -1,0 +1,20 @@
+# Default values for condition-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+serviceAccount:
+  # Specifies whether a service account should be created
+  name: "zxk"
+
+
+service:
+  name: "hw"
+  type: "NodePort"
+  nodePort: 2222
+
+
+
+
+environment: production
+
+configMap:
+  name: webapp-color-configmap

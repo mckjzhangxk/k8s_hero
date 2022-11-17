@@ -1,0 +1,76 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: mongo-conf
+  namespace: {{ .Values.environment }}
+  annotations:
+    kubesphere.io/creator: admin
+data:
+  mongodb.conf: |-
+    dbpath=/root/mongo
+    logpath=/root/mongo/mongodb.log
+    logappend=true
+    journal=true
+    bind_ip=0.0.0.0
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-mongodb
+  namespace: {{ .Values.environment }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-deployment
+  labels:
+    app: mongodb
+  namespace: {{ .Values.environment }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+        - name: mongodb
+          image: registry.cn-beijing.aliyuncs.com/webrtc-boom/mongo:latest
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+             - mountPath: "/root/mongo/configs"
+               name: cm1
+             - mountPath: "/root/mongo"
+               name: pvc-vol
+      volumes:
+         - name: cm1
+           configMap:
+              name: mongo-conf
+         - name: pvc-vol
+           persistentVolumeClaim:
+             claimName: pvc-mongodb
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-service
+  namespace: {{ .Values.environment }}
+spec:
+  type: NodePort
+  selector:
+    app: mongodb
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+

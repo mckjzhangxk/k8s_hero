@@ -1,0 +1,68 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: redis-conf
+  namespace: {{ .Values.environment }}
+  annotations:
+    kubesphere.io/creator: admin
+data:
+  redis.conf: |-
+    daemonize no
+    bind 0.0.0.0
+    port 6379
+    unixsocket /root/redis/redis.sock
+    unixsocketperm 700
+    timeout 300
+    loglevel verbose
+    logfile /root/redis/redis.log
+    databases 16
+    dbfilename dump.rdb
+    dir /root/redis/
+    appendonly yes
+    appendfilename appendonly.aof
+    appendfsync everysec
+    no-appendfsync-on-rewrite yes
+    auto-aof-rewrite-percentage 80-100
+    auto-aof-rewrite-min-size 64mb
+    lua-time-limit 5000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: {{ .Values.environment }}
+  labels:
+    app: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: "registry.cn-beijing.aliyuncs.com/webrtc-boom/redis:latest"
+        volumeMounts:
+          - mountPath: "/root/redis/configs"
+            name: conf-vol
+      volumes:
+         - name: conf-vol
+           configMap:
+              name: redis-conf
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+  namespace: {{ .Values.environment }}
+spec:
+  type: NodePort
+  selector:
+    app: redis
+  ports:
+    - targetPort: 6379
+      port: 6379

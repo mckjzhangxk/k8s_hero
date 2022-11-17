@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: msms-deployment
+  labels:
+    app: msms-deployment
+  namespace: brtc-test-latest
+spec:
+  template:
+    metadata:
+      name: msms
+      labels:
+        app: msms-pod
+    spec:
+      nodeSelector:
+        ms: ms
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+        - name: msms
+          image: registry.cn-beijing.aliyuncs.com/webrtc-boom/msms:rtcs-v0.4-newms2-k8s
+          env:
+          - name: CONFIG_APOLLO_SECRET
+            value: 9d01995713a448bf9ad1b9db56f35e64
+          - name: CONFIG_APOLLO_URL
+            value: http://apollo-dev.baijiayun.com:8080
+          - name: CONFIG_APOLLO_APPID
+            value: K8sConfig
+          - name: CONFIG_APOLLO_CLUSTER
+            value: DEV
+          - name: CONFIG_APOLLO_NAMESPACE
+            value: ms2_conf.json
+          - name: CONFIG_APOLLO_BACKUP_PATH
+            value: ./
+          - name: MALLOC_TRIM_THRESHOLD_
+            value: "65535"
+          - name: MALLOC_MMAP_THRESHOLD_
+            value: "65535"
+          - name: CFG_CENTER
+            value: "TRUE"
+          - name: MS_PORT
+            value: "10007"
+          - name: GET_CONTAINER_CMD
+            value: "cat /proc/self/cgroup | head -1|cut -d/ -f 5|cut -d- -f 2|cut -d. -f 1"
+          - name: PUB_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
+          - name: INNER_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
+          - name: PULLER_URL
+            value: "http://bj-puller-service:8992"
+  selector:
+    matchLabels:
+      app: msms-pod
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: msms-service
+  namespace: brtc-test-latest
+spec:
+  type: NodePort
+  selector:
+    app: msms-pod
+  ports:
+    - targetPort: 10006
+      port: 10006

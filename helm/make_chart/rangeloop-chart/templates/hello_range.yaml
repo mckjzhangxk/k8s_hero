@@ -1,0 +1,6 @@
+# root:
+#   labels:
+    # {{- range .Values.objects }}
+    # app: {{ .name }}
+    # value: {{ .age }}
+    # {{- end }}

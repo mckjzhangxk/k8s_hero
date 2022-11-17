@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: brtc-admin-deployment
+  labels:
+    app: brtc-admin-deployment
+  namespace: brtc-test-latest
+spec:
+  template:
+    metadata:
+      name: brtc-admin
+      labels:
+        app: brtc-admin-pod
+    spec:
+      containers:
+        - name: brtc-admin
+          image: harbor.baijiayun.com/brtc/brtcadmin:v0.1.5
+          env:
+            - name: ADMINURL
+              value: 'http://master-service:8885'
+            - name: INTELROUTE
+              value: 'http://intelroute-service:9998'
+            - name: ADMINPORT
+              value: '8083'
+            - name: VUE_APP_PUBLIC_PATH
+              value: '/admin/'
+            - name: TOPOVIEW
+              value: ''
+  replicas: 1
+  selector:
+    matchLabels:
+      app: brtc-admin-pod
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: brtc-admin-service
+  namespace: brtc-test-latest
+spec:
+  type: NodePort
+  selector:
+    app: brtc-admin-pod
+  ports:
+    - targetPort: 8083
+      port: 8083

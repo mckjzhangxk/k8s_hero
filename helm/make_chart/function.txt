@@ -1,0 +1,15 @@
+{{ upper .Values.image.repository }} image: NGINX nginx
+{{ quote .Values.image.repository }} image: "nginx nginx"
+{{ replace "x" "y".Values.image.repository }} image: "nginx nginy"
+{{ shuffle .Values.image.repository }} image: "nginx xignn"
+
+{{ default "nginx" .Values.image.repository }}
+
+
+https://helm.sh/docs/chart_template_guide/function_list/
+https://helm.sh/docs/chart_template_guide/function_list/#string-functions
+
+
+pipeline
+
+{{ .Values.image.repository | upper |quote }}

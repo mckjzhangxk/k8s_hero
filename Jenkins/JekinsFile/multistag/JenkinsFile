@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+    
+    stages{
+        stage('Dev'){
+            steps{
+                //必须加引号
+                git "https://github.com/kodekloudhub/go-webapp-sample.git"
+                echo "Dev success"
+            }
+        }
+        //stage 可以理解是区分环境的，相同的步骤执行与不同的环境
+        stage('Prod'){
+            steps{
+                git "https://github.com/kodekloudhub/go-webapp-sample.git"
+                echo "Prod success"
+            }
+        }
+    }
+
+}

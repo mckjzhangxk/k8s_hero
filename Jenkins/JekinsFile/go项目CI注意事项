@@ -1,0 +1,13 @@
+1.安装go插件
+
+2.设置全局的go(可选，所有stages的go 由jekin统一管理)
+
+    2.1全局工具配置下载go： http://zz02:8080/manage/configureTools/
+    2.2 go的下载地址需要替换成 国内镜像
+        vim /var/lib/jenkins/updates/org.jenkinsci.plugins.golang.GolangInstaller
+        :s#https://golang.org/dl#https://gomirrors.org/dl/go#g
+
+
+
+4.所有的pipiline路径如下
+/var/lib/jenkins/workspace/$pipelineName

@@ -1,0 +1,22 @@
+Readiness(KodeKloud-Kubernetes-CKAD P188页)
+
+    每个pod的生存周期由status,conditions 2个属性共同决定的
+
+    status查看： kubectl get pod nginx
+        pending： 还没有给pod 分配部署的 node,
+        containerCreating: 给pod 分配完成了node, 开始拉取镜像
+        running: pod内所有容器都创建完成
+
+    conditions:是对pod状态更详尽的描述，eg kubectl describe pod  nginx | grep -A 10 Conditions
+    eg:------------------------------------------
+            Conditions:
+            Type              Status
+            Initialized       True    pod是否创建初始化完成？
+            Ready             True    pod 能否对外提供服务？
+            ContainersReady   True    所有container pull成功没有？
+            PodScheduled      True    节点是否分配
+     ------------------------------------------
+    Ready:表示pod内运行的【应用】是否能正常运行 ，如果可以，service会分发流量！
+
+    important!!
+    k8s提供让container内应用 决定 Ready的值的三种方式：http,tcp port ,command 探测

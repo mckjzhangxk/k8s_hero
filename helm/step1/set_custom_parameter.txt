@@ -1,0 +1,14 @@
+P50:
+
+
+当需要更改 values.yaml的默认参数时，有以下3种选择 
+
+A： helm install my-release wordpress --set key1="v1" --set key2="v2"
+
+B:  helm install my-release wordpress   --values my-value.yaml
+
+
+C: 先下载软件包  
+    helm pull --untar wordpress  #本地会产生wordpress文件夹
+    修改 value.yaml
+    helm install my-release ./wordpress  #本地目录安装

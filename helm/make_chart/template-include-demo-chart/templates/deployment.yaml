@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ .Release.Name }}-deployment
+  labels:
+       {{- include "labels" . |indent 2 }}
+  namespace: brtc-test-latest
+spec:
+  template:
+    metadata:
+      name: mpc
+      labels:
+        {{- include "labels" . |indent 2 }}  #最后. 标志 scope=root，为的是 在.tpl文件中使用 .Release.Name
+        # {{- template "labels" . |indent 2 }}  #template 是action 不是function，所有不能这么使用
+    spec:
+      nodeSelector:
+        mpc: mpc
+      containers:
+        - name: mpc
+          image: nginx
+  selector:
+    matchLabels:
+      app: mpc-pod

@@ -1,0 +1,7 @@
+app:
+  ui:
+    bg: "blue"
+    fg: "white"
+  db:
+    name: "admin"
+    conn: "mysql://127.0.0.1:3799"

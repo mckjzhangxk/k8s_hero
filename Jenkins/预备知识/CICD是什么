@@ -1,0 +1,21 @@
+https://www.jenkins.io/
+
+
+CI:contine intergrate
+
+    其实就是一个把代码 组装成包的过程
+
+    下载代码
+    编译
+    打包
+    单元测试
+    集成测试
+    代码安全检查
+
+
+CD:contine delivery
+
+    人为控制，把【组装包】 部署到宿主机上的过程
+CD:contine deplyment
+
+    自动把【组装包】 部署到宿主机上的过程

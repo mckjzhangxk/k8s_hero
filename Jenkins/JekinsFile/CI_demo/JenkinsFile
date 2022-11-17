@@ -1,0 +1,40 @@
+//这个CI Demo 演示
+
+// 1 下载项目
+// 2 本地编译
+// 3 运行项目
+
+pipeline {
+    agent any
+    //1.先按照go插件，go 插件用于下载特殊版本的 go，编译
+    //2.再再系统工具中添加 go 版本
+    // Ensure the desired Go version is installed for all stages,
+    // 可以再宿主机上安装 go,而不使用全局的 go
+    // tools { go '1.17' }
+
+    environment{
+        GO11MODULE='on'
+        GOPROXY='https://goproxy.cn'
+    }
+    stages{
+        stage('clone'){
+            steps{
+                // sh 'go version'
+                // git 把所有的 都解压到/var/lib/jenkins/workspace,没有创建 go-webapp-sample
+                git "https://github.com/kodekloudhub/go-webapp-sample.git"
+            }
+        }
+
+        stage('build'){
+            steps{
+                sh "go build ."
+            }
+        }
+        stage('run'){
+            steps{
+                sh './go-webapp-sample &'
+            }
+        }
+    }
+
+}

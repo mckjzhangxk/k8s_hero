@@ -1,0 +1,43 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: internal-policy
+spec:
+  podSelector:
+    matchLabels:
+      name: internal
+  policyTypes:
+    - "Egress"
+  egress:
+    - to:
+      - podSelector:
+          matchLabels:
+            name: payroll
+      ports:
+        - protocol: TCP
+          port: 8080
+    - to:
+      - podSelector:
+          matchLabels:
+            name: mysql
+      ports:
+        - protocol: TCP
+          port: 3306
+    # - to:
+    #   - namespaceSelector:
+    #       matchLabels:
+    #         name: kube-system
+    #   ports:
+    #     - protocol: TCP
+    #       port: 53
+    #     - protocol: UDP
+    #       port: 53
+  # Note: We have also allowed Egress traffic to TCP and UDP port.
+  # This has been added to ensure that the internal DNS resolution 
+  # works from the internal pod. Remember: The kube-dns service is
+  #  exposed on port 53:
+    - ports:
+        - protocol: TCP
+          port: 53
+        - protocol: UDP
+          port: 53

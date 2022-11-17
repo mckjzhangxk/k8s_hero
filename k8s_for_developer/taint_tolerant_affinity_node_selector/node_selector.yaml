@@ -1,0 +1,14 @@
+# nodeSelector 会过滤出 能满足 pod
+# 的node,需要使用一下命令,给node打标记
+# kubectl label nodes node01 size=Large
+# kubectl get nodes node01 --show-labels
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node_selector_demo
+spec:
+  containers:
+    - name: nginx-pod
+      image: nginx
+  nodeSelector:
+    size: Large

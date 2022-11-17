@@ -1,0 +1,19 @@
+version: "3"
+services:
+  brtcroute:
+    logging:
+      driver: json-file
+      options:
+        max-size: 15m
+    network_mode: host
+    privileged: true
+    restart: always
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 400000
+        hard: 400000
+    image: harbor.baijiayun.com/training-test/coturn:0.0.1
+    volumes:
+      - ./conf/turnserver.conf:/etc/turnserver.conf
+      - ./cert/:/apps/cert

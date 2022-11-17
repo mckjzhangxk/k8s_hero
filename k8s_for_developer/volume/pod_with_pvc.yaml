@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginxdemo
+  namespace: test
+spec:
+  containers:
+  - image: nginx
+    name: nginx-pod
+    ports:
+    - containerPort: 80
+    volumeMounts:
+      - mountPath: "/root/myconfig2"
+        name: pv-vol
+  volumes:
+    - name: pv-vol
+      persistentVolumeClaim:
+        claimName: pvc-demo

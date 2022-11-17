@@ -1,0 +1,15 @@
+Chart: yaml文件的集合，比如 deployment,pv,service.
+    还有一个特殊的文件： values.yaml，提取出所有的 配置.
+
+    配置使用template表示，格式 {{ .Values.image.sss}}
+
+Release: helm install my-site nginx
+
+    nginx是packageName,my-site是release。
+    Release 可以用 安装 互相独立不干扰的 packageName,比如用于环境区分。
+
+    1.Release以 metadata的形式保存在k8s上
+    2.Release 维护 package  的 版本，每个 版本可以看成 snapshot
+Repository: 
+    hub是所有仓库的入口
+    hub:https://artifacthub.io/

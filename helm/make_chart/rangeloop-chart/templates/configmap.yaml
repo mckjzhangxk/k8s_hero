@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  labels:
+    app: app-config
+data:
+  regions: |- {{- range .Values.regions }}
+    - {{ . | quote }}  #加上引号
+  {{- end }}

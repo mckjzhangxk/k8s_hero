@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: service_account_demo
+spec:
+  serviceAccount: xxxx  #这个 pod 使用 创建的账户
+  automountServiceAccountToken: false #是否自动 挂载这个service 的token
+  containers:
+    - name: nginx-pod
+      image: nginx
+  

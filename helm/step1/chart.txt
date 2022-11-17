@@ -1,0 +1,10 @@
+chart可以理解成 任务的指令集合，由一系列文本组织。
+
+helm 的目录结构如下
+
+templates
+    ---deployment.yaml
+    ---pvc.yaml
+values.yaml:
+chart.yaml：定于用于的信息
+charts  #目录，依赖的charts

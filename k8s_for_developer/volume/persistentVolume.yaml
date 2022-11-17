@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-demo
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  #storage strategy
+  hostPath:
+    path: "/opt/test"
+    type: "Directory"
+  # awsElasticBlockStore:
+  #   volumeID: <volId>
+  #   fsType: ext4
+  persistentVolumeReclaimPolicy: Retain  
+  #pvc 删除后，pv如何处理。
+  #Retain(继续保留) ,但不可以。administrator需要手动 删除pv,volume storage(aws,gce)
+  #Delete(删除) 自动 删除pv,volume storage(aws,gce)
+  #Rcycle(清除数据后再分配)，可再次利用

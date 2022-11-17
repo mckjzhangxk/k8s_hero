@@ -1,0 +1,15 @@
+1 用.或者$表示  root
+
+2.root 下面是 Release,Chart,Values
+
+3.with scope 语法：
+
+{{-  with .Values.db }}
+
+    username: .username
+    password: .password
+{{- end}}
+
+
+4.在 with 内 如果 还行 使用 上级或者平级，那么使用 $
+   eg  $Values.role.create

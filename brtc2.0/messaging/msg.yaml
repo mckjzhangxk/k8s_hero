@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: messaging-deployment
+  labels:
+    app: messaging-deployment
+  namespace: brtc-test-latest
+spec:
+  template:
+    metadata:
+      name: messaging
+      labels:
+        app: messaging-pod
+    spec:
+      nodeSelector:
+        messaging: messaging
+      containers:
+        - name: messaging
+          image: registry.cn-beijing.aliyuncs.com/bjy-webrtc/messaging:2022110101
+          env:
+          - name: CONFIG_APOLLO_SECRET
+            value: 9d01995713a448bf9ad1b9db56f35e64
+          - name: CONFIG_APOLLO_URL
+            value: http://apollo-dev.baijiayun.com:8080
+          - name: CONFIG_APOLLO_APPID
+            value: K8sConfig
+          - name: CONFIG_APOLLO_CLUSTER
+            value: DEV
+          - name: CONFIG_APOLLO_NAMESPACE
+            value: messaging.yaml
+          - name: CONFIG_APOLLO_BACKUP_PATH
+            value: ./
+          ports:
+            - containerPort: 8886
+  selector:
+    matchLabels:
+      app: messaging-pod
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: messaging-service
+  namespace: brtc-test-latest
+spec:
+  type: NodePort
+  selector:
+    app: messaging-pod
+  ports:
+    - targetPort: 8886
+      port: 8886

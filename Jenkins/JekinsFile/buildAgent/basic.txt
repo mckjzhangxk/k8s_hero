@@ -1,0 +1,19 @@
+Agent 就是 帮 jenkins 执行 具体工作的 程序，它 可以
+
+和 jenkins服务在一台机器上
+其他主机（linux）
+其他架构(arm,raspi)
+甚至是docker。
+
+
+jenkins只是告诉 agent，给我执行 pipeline,agent照做就是了。
+
+只有能运行java,就可以是一个agent
+
+
+jenkins 需要先按照 SSH Build Agents 插件!!
+
+可以通过一下，指定一个agent
+ agent {
+       label "node01"
+ }

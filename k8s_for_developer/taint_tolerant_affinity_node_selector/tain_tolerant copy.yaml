@@ -1,0 +1,24 @@
+#Taint=> node,toleration =>pod
+#只有 toleration=Taint 的pod,才会被
+# schedular 不过滤掉，有可能被分配到
+# 这个node上
+
+#给一个node加Taint使用如下命令
+# kubectl taint nodes node01 app=nginx:noSchedule
+# taintEffect:【noSchedule，noExecute】
+# noExecute更加暴力，如果已经分配到的pod不 tolerate 这个node新
+# 加的taint,这个pod 会被evict!
+apiVersion: v1
+kind: Pod
+metadata:
+  name: taint_demo
+spec:
+  containers:
+    - name: nginx-pod
+      image: nginx
+  tolerations:   #toleration决定  pod是否被接受
+  - key: "app"
+    operator: "Equal"
+    value: "nginx"
+    effect: "NoSchedule"
+  

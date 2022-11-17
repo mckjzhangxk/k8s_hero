@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sport-deployment
+  labels:
+    app: sport-deployment
+  namespace: my-test
+spec:
+  template:
+    metadata:
+      name: sport
+      labels:
+        app: sport-pod
+    spec:
+      containers:
+        - name: sport
+          image: 'registry.cn-beijing.aliyuncs.com/bjy-webrtc/mpc:agent-v202211151830'
+          # command:
+          #   - "sleep"
+          # args:
+          #   - "100000"
+          volumeMounts:
+            - name: conf-vol
+              mountPath: /app/configs
+      volumes:
+        - name: conf-vol
+          configMap:
+            name: sentinel-agent-conf
+            # items:
+            #   - key: config.yaml
+            #     path: config.yaml
+  selector:
+    matchLabels:
+      app: sport-pod

@@ -1,0 +1,5 @@
+kubectl log -f -n $namespace $podname $containerName //如果只有一个container,containerName可以省略
+
+kubectl log -f -n brtc-test-latest pulller-pod puller
+
+kubectl log  -n brtc-test-latest pulller-pod |grep keywords

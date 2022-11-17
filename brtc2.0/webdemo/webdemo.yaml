@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webdemo-deployment
+  labels:
+    app: webdemo-deployment
+  namespace: brtc-test-latest
+spec:
+  template:
+    metadata:
+      name: webdemo
+      labels:
+        app: webdemo-pod
+    spec:
+      containers:
+        - name: webdemo
+          image: harbor.baijiayun.com/brtc/brtcwebdemo:v0.0.4
+          env:
+          - name: JWT
+            value: '3vbZqK99kEhFR7ZXFGEXLLWqjFLVLW6gHuiFYH9r5ZrKl1CTobqCVgRY0CVOLEQW'
+          - name: MASTER
+            value: 'http://k8s-idc-master.baijiayun.com:30436'
+          - name: PORT
+            value: '3443'
+          - name: APPID
+            value: 'YG1O5y61cBcG0DNPRvvCXPBPVy8Gfd8e'
+  selector:
+    matchLabels:
+      app: webdemo-pod
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webdemo-service
+  namespace: brtc-test-latest
+spec:
+  type: NodePort
+  selector:
+    app: webdemo-pod
+  ports:
+    - targetPort: 3443
+      port: 3443

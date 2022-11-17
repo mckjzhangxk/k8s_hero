@@ -1,0 +1,52 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: exchangeipconfig
+  namespace: {{ .Values.environment }}
+data:
+  config.json: |-
+    {
+        "port":5000,
+        "ips":{
+            "10.16.31.244":"103.234.22.111",
+            "10.16.31.245":"103.234.22.112",
+            "10.16.31.246":"103.234.22.113",
+            "10.16.31.247":"103.234.22.114",
+            "10.16.31.248":"103.234.22.115",
+            "10.16.31.249":"103.234.22.116",
+            "10.16.31.250":"103.234.22.117",
+            "10.16.31.251":"103.234.22.118",
+            "10.16.31.252":"103.234.22.94",
+            "10.16.31.253":"103.234.22.93"
+        }
+    }
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: exchangeip
+  namespace: {{ .Values.environment }}
+  labels:
+    app: exchangeip
+spec:
+  selector:
+    matchLabels:
+      app: exchangeip
+  template:
+    metadata:
+      labels:
+        app: exchangeip
+    spec:
+      volumes:
+        - name: volume-4k0qch
+          configMap:
+            name: exchangeipconfig
+      containers:
+        - name: container-ej44c8
+          image: '{{ .Values.services.exchangeIp.repository }}:{{ .Values.services.exchangeIp.tag }}'
+          volumeMounts:
+            - name: volume-4k0qch
+              readOnly: true
+              mountPath: /app/configs
+          imagePullPolicy: Always

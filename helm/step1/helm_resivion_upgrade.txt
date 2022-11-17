@@ -1,0 +1,21 @@
+P50:
+
+helm reversion可以进行 app的版本维护
+
+A 安装一个老版本的nginx 
+   helm install nginx-release nginx  --version 7.1.0
+   helm ls # revision=1
+B 如果要升级这个nginx 
+    helm upgrade nginx-release nginx
+    helm upgrade dazzling-web bitnami/nginx --version 12 #指定更新的chart版本号
+    helm ls # revision=2
+
+C 看成所有的版本
+   helm history nginx-release
+
+D 回滚 到 resion=1
+   helm rollback nginx-release 1 #回滚到版本1
+   helm ls # revision=3
+
+
+注意：持久化存在 不会被 rollback，比如数据库中的数据，可以使用chart hook进行restore

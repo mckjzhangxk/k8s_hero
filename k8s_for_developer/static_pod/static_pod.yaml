@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: static-busybox
+spec:
+  containers:
+    - name: static-busybox
+      image: busybox
+      command: ["sleep","10"]
+
+
+# 什么是static-pod?
+# 1）首先 kubelet是用户 管理一个节点的agent,是个二进制文件,
+# 用于创建 Pod,监控Pod状态，与 api-server交互。
+# 2) 把 pod的定义 放到【指定的路径下面】
+# /etc/kubernetes/manifests/static-busybox.yaml
+# kubelet 会自动创建，并且维护这些 pod的运行。
+# 3) 创建的pod名称自动会 追加 -nodeName
+# kubectl -config $configFile
+# configFile文件下 有staticPodPath: /etc/kubernetes/manifests
+
+# 或者可以 kubectl -pod-manifest-path $path 这个pod也是
+# 4)apiserver,ectd,schedular,controller manager都是静态Pod

@@ -1,0 +1,21 @@
+#DaemonSet 保证每个节点上面，都会部署
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  namespace: kube-system
+  name: elasticsearch
+  labels:
+    app: daemonSet-elasticsearch
+spec:
+  template:
+    metadata:
+      name: fluentd-pod
+      labels:
+        app: fluentd-pod
+    spec:
+      containers:
+        - name: fluentd
+          image:  k8s.gcr.io/fluentd-elasticsearch:1.20
+  selector:
+    matchLabels:
+      app: fluentd-pod

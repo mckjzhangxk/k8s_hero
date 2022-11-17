@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-deployment
+  labels:
+    app: mongodb
+  namespace: brtc-test-latest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      nodeSelector:
+        mongo: mongo
+      containers:
+        - name: mongodb
+          image: registry.cn-beijing.aliyuncs.com/webrtc-boom/mongo:latest
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+             - mountPath: "/root/mongo/configs"
+               name: cm1
+             - mountPath: "/root/mongo"
+               name: vol-host
+      volumes:
+         - name: cm1
+           configMap:
+              name: mongo-conf
+         - name: vol-host
+           hostPath:
+               path: /data/vol
+               type: Directory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-service
+  namespace: brtc-test-latest
+spec:
+  type: NodePort
+  selector:
+    app: mongodb
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+

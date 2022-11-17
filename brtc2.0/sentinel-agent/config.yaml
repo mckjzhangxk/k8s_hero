@@ -1,0 +1,5 @@
+agent:
+  port: 9805
+  register: "10.16.31.253:31969" #sentinel-master的域名,9801,grpc端口
+logger:
+  level: debug

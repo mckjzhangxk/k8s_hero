@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis
+spec:
+  # securityContext:  #pod 级别
+  #   runAsUser: 1000
+  containers:
+    - name: redis-pod
+      ports:
+        - containerPort: 6379
+      image: redis
+      resources:
+        requests:
+          cpu: 1.0 # 1.0==1000m
+          memory: 250Mi
+        limits:
+          cpu: 2
+          memory: 500Mi

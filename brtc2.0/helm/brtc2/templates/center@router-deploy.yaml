@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: router-deployment
+  labels:
+    app: router-deployment
+  namespace: {{ .Values.environment }}
+spec:
+  template:
+    metadata:
+      name: router
+      labels:
+        app: router-pod
+    spec:
+      containers:
+        - name: router
+          image: '{{ .Values.services.router.repository}}:{{.Values.services.router.tag}}'
+          env:
+          - name: CONFIG_APOLLO_SECRET
+            value: {{ .Values.applo.secret }}
+          - name: CONFIG_APOLLO_URL
+            value: {{ .Values.applo.url }}
+          - name: CONFIG_APOLLO_APPID
+            value: {{ .Values.applo.appid }}
+          - name: CONFIG_APOLLO_CLUSTER
+            value: {{ .Values.applo.cluster }}
+          - name: CONFIG_APOLLO_NAMESPACE
+            value: rtcs-router.yaml
+          - name: CONFIG_APOLLO_BACKUP_PATH
+            value: ./
+  replicas: {{ default 1 .Values.services.router.replicas}}
+  selector:
+    matchLabels:
+      app: router-pod
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rtcs-router-service
+  namespace: {{ .Values.environment }}
+spec:
+  type: NodePort
+  selector:
+    app: router-pod
+  ports:
+    - targetPort: 8999
+      port: 8999

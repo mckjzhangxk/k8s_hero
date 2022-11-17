@@ -1,0 +1,16 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: developer
+rules:
+  - apiGroups: [""]  #core下 不分apiGroups
+    resources: ["pods"] #kubectl api-resources 对应的资源
+    verbs: ["list", "get", "create", "update", "delete"]
+    # 只能有mpc,mpm pod使用上面的命令
+    resourceNames: ["mpc","mpm"]
+  - apiGroups: [""] 
+    resources: ["ConfigMap"]
+    verbs: ["create"]
+  - apiGroups: ["apps"] #named 下分apiGroups
+    resources: ["deployments"]
+    verbs: ["create"]

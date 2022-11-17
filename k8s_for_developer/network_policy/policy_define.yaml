@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: db-policy
+spec:
+  podSelector:   #设置 这条规则 作用的 pod
+    matchLabels:
+      app: mysql-pod
+  policyTypes:
+    - "Ingress"
+  ingress:
+    - from:  #设置allow规则， 规则之间 是 【或】的关系
+        - podSelector:  #选择入口 允许的 pod
+            matchLabels:
+              app: api-pod
+          namespaceSelector: #and 的关系
+            matchLabels:
+              name: dev
+        - namespaceSelector: #选择入口 允许的 namspace
+            matchLabels:
+              name: product
+        - ipBlock:   #选择入口 允许的 ip
+            cidr: 192.168.0.22/32
+      ports:         #设置对外 开放的 port
+        - protocol: TCP
+          port: 3306
+  egress:
+    - to:
+      - podSelector:
+          matchLabels:
+            app: export-pod
+      - ipBlock:
+          cidr: 192.168.100.100/32
+      ports:         #设置对外 访问的 port
+        - protocol: TCP
+          port: 3306

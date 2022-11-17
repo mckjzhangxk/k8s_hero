@@ -1,0 +1,68 @@
+# Default values for brtc2.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+
+regions:
+  - name: "bj"
+  - name: "sz"
+  - name: "sh"
+
+applo:
+   secret: a75b4735f0fb4ce497e09924e9684e19
+   url: http://apollo-dev.baijiayun.com:8080
+   appid: K8sConfigHelmTest
+   cluster: DEV
+
+services:
+   admin:
+      tag: v0.1.5
+      repository: 'harbor.baijiayun.com/brtc/brtcadmin'
+   webdemo:
+      tag: v0.0.4
+      repository: 'harbor.baijiayun.com/brtc/brtcwebdemo'
+      jwt: '3vbZqK99kEhFR7ZXFGEXLLWqjFLVLW6gHuiFYH9r5ZrKl1CTobqCVgRY0CVOLEQW'
+      master: 'http://master-service:8885'
+      port: 3443
+      appid: 'YG1O5y61cBcG0DNPRvvCXPBPVy8Gfd8e'
+   master:
+      tag: v0.1.9.01
+      repository: 'registry.cn-beijing.aliyuncs.com/bjy-webrtc/brtcmaster'
+   mpc:
+      tag: 'bigroom22101902'
+      repository: 'registry.cn-beijing.aliyuncs.com/bjy-webrtc/mpc'
+      port: 9082
+   mpm:
+      tag: 'bigroom22101901'
+      repository: 'registry.cn-beijing.aliyuncs.com/bjy-webrtc/mpm'
+      replicas: 3
+   message:
+      tag: '2022110101'
+      repository: 'registry.cn-beijing.aliyuncs.com/bjy-webrtc/messaging'
+   router:
+      tag: 'test1019'
+      repository: 'registry.cn-beijing.aliyuncs.com/bjy-webrtc/rtcs'
+      replicas: 3
+   puller:
+      tag: 'test1019'
+      repository: 'registry.cn-beijing.aliyuncs.com/bjy-webrtc/rtcs'
+      replicas: 4
+   sentinelMaster:
+      tag: 'v2022101001'
+      repository: 'registry.cn-beijing.aliyuncs.com/bjy-webrtc/sentinel-master'
+      replicas: 2
+   intelrouter:
+      tag: 'v2022092801'
+      repository: 'registry.cn-beijing.aliyuncs.com/bjy-webrtc/intelroute'
+      replicas: 2
+   msms:
+      tag: 'rtcs-v0.4-newms2-k8s'
+      repository: 'registry.cn-beijing.aliyuncs.com/webrtc-boom/msms'
+      port: 10008
+      containCmd: "cat /proc/self/cgroup | head -1|cut -d/ -f 5|cut -d- -f 2|cut -d. -f 1"
+   sentinelAgent:
+      tag: 'v0.0.8'
+      repository: 'harbor.baijiayun.com/brtc/sentinel-agent'
+   exchangeIp:
+      tag: 'latest'
+      repository: 'harbor.baijiayun.com/brtc/exchangeip'

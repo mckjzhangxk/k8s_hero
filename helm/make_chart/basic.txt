@@ -1,0 +1,21 @@
+P70
+
+创建一个chart项目
+    helm create mpc-chart
+
+Build-In Object
+    Release.Name
+    Chart:对应 chart.yaml, eg: Chart.Name
+    Capabilities:
+
+
+安装
+helm install mpc ./mpc-chart
+
+
+P86
+
+语法检查:helm lint ./mpc-chart
+template填充： helm template mympc-release ./mpc-chart --debug
+helm template tt . -s templates/create_loop.yaml //只显示某个文件！
+试运行在k8s上： helm install mympc ./mpc-chart --dry-run

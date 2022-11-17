@@ -1,0 +1,19 @@
+1. 两种方式搜索某个软件包：
+    1)helm search hub wordpress #在hub（https://artifacthub.io/）搜索
+    2)
+    helm repo add  bitnami https://charts.bitnami.com/bitnami 
+    helm search repo wordpress #在本地添加的repo 中搜索
+2.部署应用
+    helm repo add  bitnami https://charts.bitnami.com/bitnami 
+    #bitnami是自定义名称？
+
+    helm install my-release wordpress
+3.查看部署
+    helm list
+    helm  uninstall my-releas #注意 这里是 release而不是 packageName
+
+4.Repo 的操作
+    helm repo hashicorp  https://charts.bitnami.com/bitnami   #添加 hashicorp 仓库
+    helm repo list   #查看本地保存的 的repo
+    helm repo update  #更新本地 的repo 数据
+    helm repo remove hashicorp #删除 hashicorp仓库
