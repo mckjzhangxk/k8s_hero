@@ -44,6 +44,11 @@ spec:
   selector:
     app: mpc-pod
   ports:
-    - targetPort: 8082
+    - name: "http-0"
+      targetPort: 8082
       port: 8082
-      nodePort: 29203
+      nodePort: 8082
+
+    - name: "http-1"
+      targetPort: 8081
+      port: 8081

@@ -1,11 +1,14 @@
 P160
 参考文档：https://docs.releng.linuxfoundation.org/en/latest/gpg.html
+https://www.linuxjournal.com/content/flat-file-encryption-openssl-and-gpg
 helm package ./foo-chart
 
 gpg 1.0
 ```
-安装： yum install gunpg,apt install gunpg
-老版格式  pgx
+安装：   yum install gunpg
+        apt install gunpg
+        brew install gpg
+老版格式  gpg
 新版格式v2：kbx
 
 版本的转换(helm需要老的版本)
@@ -13,6 +16,8 @@ gpg 1.0
     gpg --export 'baijiayun' >./gpg-keys/publickey //转换公钥！
 生成密钥对：
     gpg -gen-key // 保存到/root/.gnupg/trustdb.gpg文件加密
+    gpg --quick-generate-key $USER-ID //2.3.8版本的命令
+    gpg --full-generate-key  $USER-ID //2.3.8版本的命令
 显示本机所有创建的key
     gpg --list-keys 
     gpg --list-secret-keys //显示私钥

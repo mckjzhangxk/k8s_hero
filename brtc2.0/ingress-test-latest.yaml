@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: brtc-ingress
+  # annotations:
+    # nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  # tls:
+  # - hosts:
+    # - tls.example.com
+    # kubectl create secret tls tls-secret --key tls.key --cert tls.crt
+    # secretName: tls-secret
+  ingressClassName: nginx
+  rules:
+    - host: 'k8s-idc-mpc.baijiayun.com'
+      http:
+        paths:
+        - path: /
+          # path: /brtc\\-test/mpc(/|$)(.*)
+          pathType: Prefix
+          backend:
+            service:
+              name: mpc-service
+              port: 
+                number: 8081
+        # - path: /brtc\\-test/admin(/|$)(.*)
+        #   pathType: Prefix
+        #   backend:
+        #     service:
+        #       name: brtc-admin-service
+        #       port: 
+        #         number: 8083

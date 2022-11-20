@@ -1,0 +1,12 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-single
+spec:
+  ingressClassName: nginx-example #很重要，不要省略，这里决定是不是可以分配到Ip
+  #所有请求，都会转移给default-service服务
+  defaultBackend:
+    service:
+      name: default-service
+      port:
+        number: 80

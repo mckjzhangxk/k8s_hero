@@ -4,7 +4,7 @@ metadata:
   name: minimal-ingress
   namespace: xxx
 spec:
-  ingressClassName: nginx-example
+  ingressClassName: nginx-example #很重要，不要省略，这里决定是不是可以分配到Ip
   rules:
   - http:
       paths:
@@ -12,6 +12,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: test
+            name: test #serviceName 
             port:
-              number: 80
+              number: 80 #ClusterIp

@@ -1,0 +1,4 @@
+[ alt_names ]
+DNS.1 = kubenetes
+DNS.2 = kubenetes.default
+IP.1 = 10.0.0.1

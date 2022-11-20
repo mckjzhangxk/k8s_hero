@@ -1,0 +1,14 @@
+kubectl run  sa-pod --image=nginx  --restart=Never
+kubectl run  sa-pod --image=nginx  --as sazhang
+
+
+//获得用户的token
+kubectl get secret sazhang-token-4smj8 -o jsonpath='{.data.token}'|base64 -d
+
+//设置用户sazhang
+kubectl config set-credentials sazhang --token=$(kubectl get secret sazhang-token-4smj8 -o jsonpath='{.data.token}'|base64 --d)
+
+kubectl config set-context sa-context --user=sazhang --cluster=kubenetes
+
+kubectl get nodes --show-labels
+

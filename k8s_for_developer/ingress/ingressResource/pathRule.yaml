@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-path
+spec:
+  ingressClassName: nginx-example #很重要，不要省略，这里决定是不是可以分配到Ip
+  rules:
+  - http: 
+      paths:
+      - path: /red  #/red 转发给red-service:4242
+        pathType: Prefix
+        backend:
+          service:
+            name: red-service
+            port:
+              number: 4242
+      - path: /blue  #/blue 转发给blue-service:4243
+        pathType: Prefix
+        backend:
+          service:
+            name: blue-service
+            port:
+              number: 4343
