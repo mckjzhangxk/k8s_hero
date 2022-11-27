@@ -1,9 +1,10 @@
 
 教材：P145
+https://github.com/kodekloudhub/certified-kubernetes-administrator-course/blob/master/docs/07-Security/16-Authorization.md
 
 为什么需要 Authorization：
-- [] 为不同的应用创建 user account
-- [] 对account的操作 做权限限制
+- [ ] 为不同的应用创建 user account
+- [ ] 对account的操作 做权限限制
 
 Authorization Mechanusms
 
@@ -17,11 +18,12 @@ write:
 
 Kubelet”用户“证书的必须按照如下：
     CN:system:node:$Nodename
-    OU:system:nodes
+    O:system:nodes
+是NodeAutherizaer给Kubelet赋全的,eg:检查groud：system:nodes，名字有误前缀system:node
 ```
 * ABAC:  针对admisistrator,developr,为每个用户或者用数组 设置它的权限
-* RBAC： 针对admisistrator,developr,为每个Role设置它的权限,然后用户和Role进行绑定.
-* Webhook: 权限有第三方决定
+* RBAC： 针对admisistrator,developr,为每个Role设置它的权限,然后用户和Role进行绑定,Role 是namespace的.
+* Webhook: 权限有第三方决定，比如我的网站觉得
 * AlwayAllow: 永远允许
 * AlwayDeny: 永远不允许
 
@@ -34,7 +36,8 @@ Kubelet”用户“证书的必须按照如下：
     --authorization-mode=node,RBAC,Webhook
     user-->node-->RBAC-->Webhook
        拒绝Deny    赞成Approve
-```
 
-user-->node-->RBAC-->Webhook
-       拒绝Deny    赞成Approve
+
+    user-->node-->RBAC-->Webhook
+        拒绝Deny    赞成Approve
+```

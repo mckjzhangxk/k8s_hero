@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+ name: ingress-test
+ namespace: test
+ annotations:
+   kubernetes.io/ingress.class: "nginx"
+spec:
+ rules:
+ - host: k8s-ingress-nginx-controller-test.jdcloud
+   http:
+     paths:
+     - path: /
+       backend:
+         serviceName: test-nginx
+         servicePort: 80

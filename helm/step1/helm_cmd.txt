@@ -17,3 +17,4 @@
     helm repo list   #查看本地保存的 的repo
     helm repo update  #更新本地 的repo 数据
     helm repo remove hashicorp #删除 hashicorp仓库
+    helm pull nginx-stable/nginx-ingress --version 0.7.1

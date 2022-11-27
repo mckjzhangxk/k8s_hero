@@ -1,0 +1,36 @@
+# products service 通过 /review访问 reviews services
+# reviews 有三个不同的版本，v1,v2,v3,对应于deployment
+# 
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: reviews-rule
+spec:
+  hosts:
+  - reviews.default.svc.cluster.local        #这里一定要填写全面！！！
+  # gateways:   #草 问题在这里， review的上游部署来自 bookinfo-gateway
+  # - "bookinfo-gateway"  #来自于定义的输入流量 
+  http:
+  # header: end-user: zxk -->v3
+  - match:
+    - headers:
+        end-user:
+          exact: zxk
+    route:
+    - destination:
+        host: reviews 
+        subset: v3
+  # 默认的70%->v1,30%->v2
+  - route:
+    - destination:
+        host: reviews #reviews.default.svc
+        port: 
+          number: 9080
+        subset: v1 #对应于Pod的 version=v1,由destination Rule 决定
+      weight: 70
+    - destination:
+        host: reviews #reviews.default.svc
+        port: 
+          number: 9080
+        subset: v2 #对应于Pod的 version=v1,由destination Rule 决定
+      weight: 30

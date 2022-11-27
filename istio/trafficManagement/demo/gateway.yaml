@@ -1,0 +1,24 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: bookinfo-gateway
+spec:
+  selector:
+    istio: ingressgateway  #使用默认的ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "k8s-idc-mpc.baijiayun.com"
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - "k8s-idc-mpc.baijiayun.com"
+    tls:
+      mode: SIMPLE
+      credentialName: baijiayun-secret
+# kubectl create secret generic baijiayun-secret --from-file=key=baijiayun.com.key --from-file=cert=baijiayun.com.crt

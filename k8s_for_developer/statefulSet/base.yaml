@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-stateful
+spec:
+  template:
+    metadata:
+      name: redis
+      labels:
+        app: redis-pod
+    spec:
+      containers:
+        - name: redis
+          image: redis
+          ports:
+            - containerPort: 6379
+  replicas: 3
+  selector:
+    matchLabels:
+      app: redis-pod
+  serviceName: redis-h   #必须制定serviceName
+  podManagementPolicy: Parallel #并发创建pod

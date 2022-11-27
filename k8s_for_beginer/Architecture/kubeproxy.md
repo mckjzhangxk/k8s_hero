@@ -17,7 +17,7 @@ https://github.com/kodekloudhub/certified-kubernetes-administrator-course/blob/m
     甚至每个proxy会创建监听端口，比如nodePoort!
 ```
 
-* <font color=orange>不要把pod network与kube-proxy概念混淆，虽然都和网络有关，network-solution负责<font color=red>网络的创建</font>，而kube-proxy负责的是<font color=red>service的路由。</font></font>
+* <font color=orange>不要把pod network与kube-proxy概念混淆，虽然都和网络有关，network-solution负责<font color=red>网络的创建(CNI plugin)</font>，而kube-proxy负责的是<font color=red>service的路由。</font></font>
 * proxy是一个daemonset,每台机器都有一个 
     ```
         kubectl get daemonset -n kube-system

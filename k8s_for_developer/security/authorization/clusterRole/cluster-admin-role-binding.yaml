@@ -3,7 +3,7 @@ kind: ClusterRoleBinding
 metadata:
   name: cluster-admin-role-binding
 subjects:
- - kind: User
+ - kind: User #这里要注意，不一定是User,还可以是ServiceAccount #
    name: cluster-admin
    apiGroup: rbac.authorization.k8s.io
 roleRef:

@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: bookinfo-review
+spec:
+  host: reviews.default.svc.cluster.local #定义 路由服务,一定是FQDN！！！
+  # trafficPolicy:
+  #   loadBalancer:
+  #     simple: PASSTHROUGH
+  subsets:
+  - name: v1
+    labels:           #pod label
+      version: v1
+  - name: v2
+    labels:        #pod label
+      version: v2
+  - name: v3
+    labels:        #pod labelb  
+      version: v3

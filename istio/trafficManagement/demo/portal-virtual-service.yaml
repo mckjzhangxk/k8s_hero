@@ -1,0 +1,32 @@
+
+# productpage 服务有以下api接口：
+#  /productpage
+#  /login,/logout
+#  /api/v1/products
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: productpage-route
+spec:
+  hosts:
+  - k8s-idc-mpc.baijiayun.com
+  gateways:
+  - "bookinfo-gateway"  #来自于定义的输入流量
+  http:
+  - name: "productpage-routes"
+    match:  #匹配是多条
+    - uri:
+        exact: "/productpage"   # bookinfo.app/productpage ==> productpage.default.svc:9800/productpage
+    - uri:
+        exact: "/login"
+    - uri:
+        exact: "/logout"
+    - uri:
+        prefix: "/static"  # bookinfo.app/static ==> productpage.default.svc:9800/static
+    - uri:
+        prefix: "/api/v1/products"  # bookinfo.app/static ==> productpage.default.svc:9800/static
+    route:
+    - destination:
+        host: productpage  #productpage.default.svc
+        port: 
+          number: 9080

@@ -1,4 +1,5 @@
 P116
+https://github.com/kodekloudhub/certified-kubernetes-administrator-course/blob/master/docs/07-Security/13-kubeconfig.md
 
 常用kubectl 命令：
 * kubectl config view #查看当前的 kubeConfig文件

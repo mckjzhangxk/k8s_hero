@@ -1,6 +1,10 @@
 environment:
 harbor.baijiayun.com/sidecar/pubip:0.0.2
 doc
+    export APISERVER=https://10.16.31.251:6443 NodeName=bjy-idc-brtc-laliu-test01  TOKEN=
+    Chioce=1
+    1表示获得ip
+    2表示打标记
 
     APISERVER：https://10.16.31.251:6443
 

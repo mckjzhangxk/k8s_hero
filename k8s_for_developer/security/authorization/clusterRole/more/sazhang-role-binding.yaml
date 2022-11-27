@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: sazhang-role-binding
+subjects:
+ - kind: ServiceAccount #这里要注意，不一定是User
+   name: sazhang
+   namespace: brtc-test-latest
+roleRef:
+   kind: ClusterRole
+   name: cluster-admin
+   apiGroup: rbac.authorization.k8s.io

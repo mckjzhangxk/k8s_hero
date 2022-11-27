@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+ name: ingress-namebased
+ annotations:
+   kubernetes.io/ingress.class: "nginx" #指定ingressClass
+spec:
+ rules:
+ - host: red.example.com
+   http:
+     paths:
+     - path: /
+       pathType: Prefix
+       backend:
+         serviceName: red-service
+         servicePort: 4242

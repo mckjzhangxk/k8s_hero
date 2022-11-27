@@ -1,0 +1,2 @@
+kubectl create secret generic baijiayun-secret --from-file=key=baijiayun.com.key --from-file=cert=baijiayun.com.crt
+# kubectl create secret tls baijiayun-secret --cert baijiayun.com.crt --key baijiayun.com.key 

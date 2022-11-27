@@ -1,0 +1,12 @@
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: "example-peer-policy"
+  namespace: "book-info" #命名空间级别的
+  # namespace: "istio-system" #mesh grid级别的
+spec:
+  selector:   #服务级别的
+    matchLabels:
+    app: reviews
+  mtls:
+    mode: STRICT  #没有使用mtls的，不可用访问”本服务“

@@ -1,7 +1,7 @@
 
 参考文档：https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#-strong-api-groups-strong-
 
-
+https://github.com/kodekloudhub/certified-kubernetes-administrator-course/blob/master/docs/07-Security/15-API-Groups.md
 教材：P130
 ### 0.什么是API Group?
   对应创建的k8s对象来说，第一行需要指定的apiVersion就是API Group,表明这个对象的创建路径
