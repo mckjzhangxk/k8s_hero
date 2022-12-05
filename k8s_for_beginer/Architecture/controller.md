@@ -3,7 +3,7 @@ https://github.com/kodekloudhub/certified-kubernetes-administrator-course/blob/m
 
 * controller有很多种，我们把它打成一个进程。
 
-* controller是通过心头来监控pod,node的，api-server是 controller与 kubelet的中继站。
+* controller是通过heatbeat来监控pod,node的，api-server是 controller与 kubelet的中继站。
 
 * 常用的nodeController,replicaSetController,默认所有的controller都开启
 

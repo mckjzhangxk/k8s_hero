@@ -4,7 +4,7 @@ P121
 
 介于ingress-gateway与service之间的虚拟对象，负责
 - [ ] 服务的路由:match-route
-- [ ] 流量分发，版本控制，负载均衡:host,port,sesubset,weight,
+- [ ] 流量分发，版本控制，负载均衡:host,port,subset,weight,
 
 
 ### 配置规则：Match And Route and destination

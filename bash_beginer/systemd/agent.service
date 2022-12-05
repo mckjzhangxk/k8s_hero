@@ -1,0 +1,22 @@
+#文件需要放到 /etc/systemd/system/agent.service
+# systemctl daemon-reload ，可以让系统加载你的改动
+# systemctl start agent
+[Unit]
+Description=Agent启动程序
+
+# docker启动后，才启动这个service
+After=docker.service
+
+[Install]
+WantedBy graphical.target
+# 自启动选项
+# systemctl enable agent
+[Service]
+ExecStart=/bin/bash xx.sh
+
+# 使用zxk账户执行这个service
+User=zxk
+
+# 如果失败，重启，失败后10s才重启
+Restart=on-failure
+RestartSec=10
