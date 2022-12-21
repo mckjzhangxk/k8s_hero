@@ -1,0 +1,87 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: prometheus
+  namespace: brtc-monitor
+  labels:
+    prometheus: k8s
+spec:
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - preference:
+          matchExpressions:
+          - key: node-role.kubernetes.io/monitoring
+            operator: Exists
+        weight: 100
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+            - key: prometheus
+              operator: In
+              values:
+              - k8s
+          namespaces:
+          - brtc-monitor
+          topologyKey: kubernetes.io/hostname
+        weight: 100
+  alerting:
+    alertmanagers:
+    - name: alertmanager-brtc-service
+      namespace: brtc-monitor
+      port: web
+  enableAdminAPI: false
+  image: prom/prometheus:v2.26.0
+  nodeSelector:
+    kubernetes.io/os: linux
+  query:
+    maxConcurrency: 1000
+  replicas: 1
+  resources:
+    limits:
+      cpu: "4"
+      memory: 16Gi
+    requests:
+      cpu: 200m
+      memory: 400Mi
+  ruleSelector:
+    matchLabels:
+      prometheus: brtc-k8s-rules
+      role: alert-rules
+  scrapeInterval: 1m
+  securityContext:
+    fsGroup: 0
+    runAsNonRoot: false
+    runAsUser: 0
+  serviceAccountName: prometheus-k8s
+  serviceMonitorSelector:
+    matchLabels:
+      app.kubernetes.io/name: node-exporter
+      app.kubernetes.io/vendor: kubesphere
+  serviceMonitorNamespaceSelector:
+    matchLabels:
+      kubesphere.io/namespace: kubesphere-monitoring-system
+  storage:
+    volumeClaimTemplate:
+      spec:
+        resources:
+          requests:
+            storage: 20Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus
+  namespace: brtc-monitor
+spec:
+  type: NodePort
+  ports:
+  - name: web
+    nodePort: 30900
+    port: 9090
+    protocol: TCP
+    targetPort: web
+  selector:
+    prometheus: prometheus

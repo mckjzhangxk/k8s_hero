@@ -1,0 +1,48 @@
+global:
+  resolve_timeout: 1m
+route:
+  continue: false
+  routes:
+    - match:
+        alertname: node_metrics.disk
+      receiver: alert-brtcs
+    - match:
+        alertname: probe.common
+      receiver: alert-brtcs
+    - match:
+        alertname: node_metrics.cpu
+      receiver: alert-brtcs
+    - match:
+        alertname: node_metrics.memory
+      receiver: alert-brtcs
+    - match:
+        alertname: probe.node_exporter
+      receiver: alert-brtcs
+    - match:
+        alertname: probe.bandwidth.up
+      receiver: alert-brtcs
+    - match:
+        alertname: probe.bandwidth.down
+      receiver: alert-brtcs
+    - match:
+        alertname: pod_restart
+      receiver: alert-brtcs
+  receiver: alert-brtcs
+  group_by:
+    - alertname
+    - severity
+    - podname
+  group_wait: 30s  #第一次警告到来的时候，会等30s 才触发通知
+  group_interval: 3s  #3s内不来此类警告后，再次到来的触发通知
+  repeat_interval: 15s #如果通知失败，15s后重试
+
+receivers:
+  - name: alert-brtcs
+    webhook_configs:
+      - url: "http://alerthook-service:5001/"
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'dev', 'instance']

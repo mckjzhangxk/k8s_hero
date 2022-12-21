@@ -11,3 +11,4 @@ METRICS SERVER部署
 A )git clone https://github.com/kodekloudhub/kubernetes-metrics-server.git
 
 B ) cd kubernetes-metrics-server && kubectl create -f .
+

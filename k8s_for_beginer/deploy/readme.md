@@ -59,9 +59,9 @@ ETCD的Ha
 [kubeadm安装](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
 [k8s组件版本](https://kubernetes.io/releases/version-skew-policy/#supported-versions)
 
-
+[ububtu安装](https://github.com/justmeandopensource/kubernetes/blob/master/docs/install-cluster-ubuntu-20.md)
 
 go 安装教程（https://zhuanlan.zhihu.com/p/453462046）
 registry.aliyuncs.com/google_containers
 
-kubeadm init --image-repository=registry.aliyuncs.com/google_containers --apiserver-advertise-address=192.168.56.2 --pod-network-cidr=10.177.0.0/16 --cri-socket=unix:///var/run/cri-dockerd.sock
+kubeadm init --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers --apiserver-advertise-address=192.168.56.2 --pod-network-cidr=10.177.0.0/16 --cri-socket=unix:///var/run/cri-dockerd.sock

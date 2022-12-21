@@ -1,0 +1,5 @@
+groups:
+- name: cpu-node
+  rules:
+  - record: myrule   #每次输入此记录，相当于 输入expr,这个查询 结果会缓存成记录
+    expr: avg by (instance) (rate(node_cpu_seconds_total[5m]))

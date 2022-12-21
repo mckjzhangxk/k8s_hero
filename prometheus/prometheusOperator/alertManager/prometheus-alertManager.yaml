@@ -1,0 +1,22 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Alertmanager
+metadata:
+  name: alertmanager-brtc  #这是用自定义对象创建alertManager
+  namespace: brtc-monitor
+spec:
+  replicas: 1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alertmanager-brtc-service
+  namespace: brtc-monitor
+spec:
+  type: NodePort
+  ports:
+  - name: web
+    port: 9093
+    protocol: TCP
+    targetPort: web
+  selector:
+    alertmanager: alertmanager-brtc #alertManager创建的时候会自动打这个标签，alertmanager:$name

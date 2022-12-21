@@ -1,0 +1,16 @@
+global:
+   scrape_interval: 15s #15s 调用一次retrival,拉取一次metrics
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+           - localhost:9093 #配置好alertmanager的地址
+rule_files:
+  - 'prometheus_rules.yml' #rule其实就是预定义的表达式，定义的原因是优化查询
+  - 'alert_rules.yml'  #设置一个报警规则
+scrape_configs:
+   - job_name: node
+     static_configs:
+        - targets: ['localhost:9100','100.0.0.3:9100'] 
+          labels:
+            host: zz03

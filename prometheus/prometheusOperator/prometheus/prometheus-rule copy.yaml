@@ -1,0 +1,36 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    prometheus: brtc-k8s-rules
+    role: alert-rules
+  name: brtc-alert-rules
+  namespace: brtc-monitor
+spec:
+  groups:
+  - name: cpu-node
+    rules:
+    - record: myrule   #每次输入此记录，相当于 输入expr,这个查询 结果会缓存成记录
+      expr: avg by (instance) (rate(node_cpu_seconds_total[5m]))
+  - name: simpleDown
+    rules:
+
+    # Alert for any instance that is unreachable for >5 minutes.
+    - alert: InstanceDown
+      expr: up == 0
+      for: 10s
+      labels:
+        severity: page
+      annotations:
+        summary: "Instance {{ $labels.instance }} down"
+        description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
+  - name: node_metrics.bandwidth.down
+    rules:
+      - expr: rate(node_network_receive_bytes_total[1m]) * 8 / 1024 / 1024 > 250
+        for: 1m
+        labels:
+          severity: 普通
+          tpl: node_metrics.bandwidth.down
+        annotations:
+           rule: 流入带宽超过 250Mb,持续 1m
+           summary: "{{ $labels.instance }}:机器流入带宽告警"

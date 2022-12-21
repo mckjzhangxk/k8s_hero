@@ -1,0 +1,6 @@
+# 必须创建一个sa，绑定一下clusterrole
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: prometheus-k8s
+  namespace: brtc-monitor

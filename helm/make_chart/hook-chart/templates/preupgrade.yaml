@@ -5,7 +5,7 @@ metadata:
 annotations:
    "helm.sh/hook": pre-upgrade
    "helm.sh/hook-weight": "5"  #权重小的先执行
-   "helm.sh/hook-delete-policy": hook-succeed
+   "helm.sh/hook-delete-policy": hook-succeed #删除掉 这个job，当hook执行成功后
 spec:
   template:
     spec:

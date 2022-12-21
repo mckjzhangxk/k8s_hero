@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: affinity_demo
+spec:
+  containers:
+    - name: nginx-pod
+      image: nginx
+  # nodeSelector:
+  #   Size: Large
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+              - key: app
+                operator: In
+                values: ["msms","mpc"]
+        topologyKey: kubernetes.io/hostname
