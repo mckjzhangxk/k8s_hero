@@ -38,7 +38,7 @@ spec:
     kubernetes.io/os: linux
   query:
     maxConcurrency: 1000
-  replicas: 0
+  replicas: 1
   resources:
     limits:
       cpu: "4"
@@ -47,7 +47,7 @@ spec:
       cpu: 200m
       memory: 400Mi
   ruleSelector:
-    matchLabels:
+    matchLabels:  #用于匹配 设置的prometheus 规则
       prometheus: brtc-k8s-rules
       role: alert-rules
   scrapeInterval: 15s
@@ -56,11 +56,11 @@ spec:
     runAsNonRoot: false
     runAsUser: 0
   serviceAccountName: prometheus-k8s
-  serviceMonitorSelector:
+  serviceMonitorSelector: #匹配监控的服务标签 kubectl get ServiceMonitor -n kubesphere-monitoring-system 
     matchLabels:
       # app.kubernetes.io/name: node-exporter
       app.kubernetes.io/vendor: kubesphere
-  serviceMonitorNamespaceSelector:
+  serviceMonitorNamespaceSelector: #匹配监控的服务标签命名空间
     matchLabels:
       kubesphere.io/namespace: kubesphere-monitoring-system
   storage:

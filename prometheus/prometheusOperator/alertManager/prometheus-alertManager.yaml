@@ -1,12 +1,12 @@
 apiVersion: monitoring.coreos.com/v1
 kind: Alertmanager
 metadata:
-  name: alertmanager-brtc  #这是用自定义对象创建alertManager
+  name: alertmanager-brtc  #这是用自定义对象创建AlertManager
   namespace: brtc-monitor
 spec:
   replicas: 1
 ---
-apiVersion: v1
+apiVersion: v1  #AlertManager对于的service
 kind: Service
 metadata:
   name: alertmanager-brtc-service

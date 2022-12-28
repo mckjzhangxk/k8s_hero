@@ -24,7 +24,8 @@ kubectl --kubeconfig ./kubeconfig config get-clusters
 
 kubectl create deployment hello-world-service-single  --image=harbor.baijiayun.com/nginx/hello-app:1.0
 kubectl scale deployment hello-world-service-single --replicas=2
-kubectl expose deployment hello-world-service-single --port=80 --target-port=8080 --type=ClusterIP
+kubectl expose deployment hello-world-service-single --port=80 --target-port=8080 --type=NodePort
+kubectl port-forward [podName]  8080:80
 
 
 // ingress相关

@@ -1,4 +1,4 @@
-# 必须创建一个sa，绑定一下clusterrole
+# 必须创建一个sa，绑定一下clusterrole:kubesphere-prometheus-k8s
 apiVersion: v1
 kind: ServiceAccount
 metadata:

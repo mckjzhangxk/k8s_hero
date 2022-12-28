@@ -31,9 +31,22 @@ echo \
 
 apt-get update
 
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
+# 设置cgroup=systemd
+cat <<EOF > /etc/docker/daemon.json
+{
+    "exec-opts": ["native.cgroupdriver=systemd"]
+}
+EOF
+systemctl daemon-reload
+systemctl restart docker
 
+#containerd install 
+# curl  http://47.94.138.138:8011/cni-plugins-linux-amd64-v1.1.1.tgz -o cni-plugins-linux-amd64-v1.1.1.tgz
+# curl  http://47.94.138.138:8011/containerd-1.6.14-linux-amd64.tar.gz -o containerd-1.6.14-linux-amd64.tar.gz
+# curl  http://47.94.138.138:8011/runc.amd64 -o runc.amd64
+# curl  http://47.94.138.138:8011/containerd.service -o containerd.service
 # kubeadam kubelet kubectl
 apt-get update
 apt-get install -y apt-transport-https ca-certificates curl
@@ -44,7 +57,7 @@ echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] http://mi
 
 
 apt-get update
-apt-get install -y kubeadm=1.21.0-00 kubelet=1.21.0-00 kubectl=1.21.0-0
+apt-get install -y kubeadm=1.22.0-00 kubelet=1.22.0-00 kubectl=1.22.0-00
 apt-mark hold kubelet kubeadm kubectl
 
 
@@ -54,13 +67,16 @@ tar xfz go1.18.5.linux-amd64.tar.gz -C /usr/local
 curl http://47.94.138.138:8011/cri-dockerd-master.zip -o cri-dockerd.zip
 unzip cri-dockerd.zip
 
-cd cri-dockerd
-mkdir bin
-go build -o bin/cri-dockerd
+mkdir -p cri-dockerd-master/bin
+cd cri-dockerd-master && /usr/local/go/bin/go build -o bin/cri-dockerd
 mkdir -p /usr/local/bin
-install -o root -g root -m 0755 bin/cri-dockerd /usr/local/bin/cri-dockerd
-cp -a packaging/systemd/* /etc/systemd/system
+install -o root -g root -m 0755 cri-dockerd-master/bin/cri-dockerd /usr/local/bin/cri-dockerd
+cp -a cri-dockerd-master/packaging/systemd/* /etc/systemd/system
 sed -i -e 's,/usr/bin/cri-dockerd,/usr/local/bin/cri-dockerd,' /etc/systemd/system/cri-docker.service
 systemctl daemon-reload
 systemctl enable cri-docker.service
 systemctl enable --now cri-docker.socket
+
+
+# 安装pod网络
+# kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml

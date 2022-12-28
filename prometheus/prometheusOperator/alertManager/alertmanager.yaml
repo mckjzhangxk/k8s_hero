@@ -32,8 +32,8 @@ route:
     - alertname
     - severity
     - podname
-  group_wait: 30s  #第一次警告到来的时候，会等30s 才触发通知
-  group_interval: 3s  #3s内不来此类警告后，再次到来的触发通知
+  group_wait: 3s  #第一次警告到来的时候，会等30s 才触发通知
+  group_interval: 1m  #3s内不来此类警告后，再次到来的触发通知
   repeat_interval: 15s #如果通知失败，15s后重试
 
 receivers:

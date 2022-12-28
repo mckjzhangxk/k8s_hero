@@ -8,76 +8,70 @@ metadata:
   namespace: brtc-monitor
 spec:
   groups:
-  - name: simpleDown
-    rules:
-    # Alert for any instance that is unreachable for >5 minutes.
-    - alert: InstanceDown
-      expr: up == 0
-      for: 10s
-      labels:
-        severity: page
-      annotations:
-        summary: "Instance {{ $labels.instance }} down"
-        description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
   - name: node_metrics.bandwidth.down
     rules:
       - alert: node_metrics.bandwidth.down
-        expr: rate(node_network_receive_bytes_total[1m]) * 8 / 1024 / 1024 > 250
+        expr: rate(node_network_receive_bytes_total{device=~'^eth.*'}[3m]) * 8 / 1024 / 1024 > 250
         for: 1m
         labels:
           severity: 普通
-          tpl: node_metrics.bandwidth.down
+          tpl: net_warn
+          envname: "jingdong"
         annotations:
            rule: 流入带宽超过 250Mb,持续 1m
            summary: "{{ $labels.instance }}:机器流入带宽告警"
            value: "{{ printf  $value }}"
-  - name: node_metrics.bandwidth.up
+  - name: node_metrics.bandwidth.up #siege -c 5 -t 2m -q http://10.1.160.6:30366/health
     rules:
       - alert: node_metrics.bandwidth.up
-        expr: rate(node_network_transmit_bytes_total[1m]) * 8 / 1024 / 1024 > 250
+        expr: rate(node_network_transmit_bytes_total{device=~'^eth.*'}[3m]) * 8 / 1024 / 1024 > 250
         for: 1m
         labels:
           severity: 普通
-          tpl: node_metrics.bandwidth.up
+          tpl: net_warn
+          envname: "jingdong"
         annotations:
           rule: 流出带宽超过 250Mb,持续 1m
           summary: "{{ $labels.instance }}:机器流出带宽告警"
           value: "{{ printf $value }}"
-  - name: node_metrics.cpu
+  - name: node_metrics.cpu 
     rules:
       - alert: node_metrics.cpu
-        expr: (1 - sum by (hostname, env, group) (increase(node_cpu_seconds_total{mode="idle"}[1m])) / sum by (hostname, env, group) (increase(node_cpu_seconds_total[1m]))) * 100 > 70
+        expr: (1-sum by(instance)(rate(node_cpu_seconds_total{mode="idle"}[2m]))/sum by(instance)(rate(node_cpu_seconds_total[2m])))*100 > 70
         for: 5m
         labels:
           severity: 普通
-          tpl: node_metrics.cpu
+          tpl: machine_warn
+          envname: "jingdong"
         annotations:
           rule: CPU 使用率超 70%, 持续 5m
-          summary: "{{ $labels.instance }}:机器节点CPU告警"
+          summary: "{{ $labels.instance }}:机器节点CPU告警,CPU 使用率超 70%, 持续 5m"
           value:  "{{ printf $value }}"
-  - name: node_metrics.disk
-    rules:    
+  - name: node_metrics.disk #dd if=/dev/zero of=60G.img bs=1M count=61440
+    rules:
       - alert: node_metrics.disk
-        expr: ((node_filesystem_size_bytes{mountpoint!~"(.*docker.*|.*smb_contract.*)"} - node_filesystem_avail_bytes{mountpoint!~"(.*docker.*|.*smb_contract.*)"}) / node_filesystem_size_bytes{mountpoint!~"(.*docker.*|.*smb_contract.*)"} * 100) > 70
-        for: 2m
+        expr: ((node_filesystem_size_bytes{mountpoint!~"(.*docker.*|.*smb_contract.*|/run)"} - node_filesystem_avail_bytes{mountpoint!~"(.*docker.*|.*smb_contract.*)"}) / node_filesystem_size_bytes{mountpoint!~"(.*docker.*|.*smb_contract.*)"} * 100) > 70
+        for: 1m
         labels:
           severity: 普通
-          tpl: node_metrics.disk
+          tpl: machine_warn
+          envname: "jingdong"
         annotations:
-          rule: 磁盘使用率超 70%, 持续 2m
-          summary: "{{ $labels.instance }}:机器节点磁盘告警"
+          rule: 磁盘使用率超 70%, 持续 1m
+          summary: "{{ $labels.instance }}:机器节点磁盘告警,磁盘使用率超 70%,"
           value:  "{{ printf $value }}"
   - name: node_metrics.memory
     rules:
     - alert: node_metrics.memory
       expr: 100 - ((node_memory_MemAvailable_bytes * 100) / node_memory_MemTotal_bytes) > 80
-      for: 2m
+      for: 1m
       labels:
         severity: 普通
-        tpl: node_metrics.memory
+        tpl: machine_warn
+        envname: "jingdong"
       annotations:
         rule: 内存使用率超 80%, 持续 2m
-        summary: "{{ $labels.instance }}:机器节点内存告警"
+        summary: "{{ $labels.instance }}:机器节点内存告警,内存使用率超 80%, 持续 2m"
         value: "{{ printf $value }}"
   - name: probe.node_exporter
     rules:
@@ -95,7 +89,7 @@ spec:
   - name: pod_restart
     rules:
       - alert: pod_restart
-        expr: time()-kube_pod_start_time<120
+        expr: time()-kube_pod_start_time{namespace!="jcr-token-generator"}<120
         for: 5s
         labels:
           severity: 普通

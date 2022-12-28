@@ -64,4 +64,16 @@ ETCD的Ha
 go 安装教程（https://zhuanlan.zhihu.com/p/453462046）
 registry.aliyuncs.com/google_containers
 
-kubeadm init --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers --apiserver-advertise-address=192.168.56.2 --pod-network-cidr=10.177.0.0/16 --cri-socket=unix:///var/run/cri-dockerd.sock
+kubeadm init --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers --kubernetes-version=v1.22.0  --apiserver-advertise-address=192.168.56.2 --pod-network-cidr=10.177.0.0/16 --service-cidr=10.175.0.0/16  --cri-socket=unix:///var/run/cri-dockerd.sock --node-name=kmaster
+
+
+kubeadm init --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers --apiserver-advertise-address=192.168.56.2 --pod-network-cidr=10.177.0.0/16 --cri-socket=/run/containerd/containerd.sock
+
+
+
+kubeadm config images pull --kubernetes-version=v1.22.0 --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers   --cri-socket=unix:///var/run/cri-dockerd.sock
+
+
+
+kubeadm reset -f
+https://www.modb.pro/db/440445
