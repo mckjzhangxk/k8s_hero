@@ -1,0 +1,23 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: nginx-service
+  namespace: test-bj
+spec:
+  ports:
+    - name: "http-80"
+      protocol: TCP
+      port: 80
+      targetPort: 80
+    - name: "http-443"
+      protocol: TCP
+      port: 443
+      targetPort: 443
+    - name: "http-445"
+      protocol: UDP
+      port: 445
+      targetPort: 445
+  selector:
+    app: nginx-pod
+  type: NodePort
+  externalTrafficPolicy: Local

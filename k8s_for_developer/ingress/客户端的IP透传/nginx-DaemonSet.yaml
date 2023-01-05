@@ -1,0 +1,37 @@
+kind: DaemonSet
+apiVersion: apps/v1
+metadata:
+  name: nginx-deployment
+  namespace: test-bj
+  labels:
+    app: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nginx-pod
+  template:
+    metadata:
+      name: nginx
+      labels:
+        app: nginx-pod
+    spec:
+      volumes:
+        - name: cm1
+          configMap:
+            name: ng-conf
+        - name: tls-vol
+          secret:
+            secretName: baijiayun-secret
+      containers:
+        - name: nginx
+          # image: harbor.baijiayun.com/sidecar/nginx-quic:latest
+          image: harbor.baijiayun.com/sidecar/nginx-quic-docker:latest
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources: {}
+          volumeMounts:
+            - name: cm1
+              mountPath: /etc/nginx/conf.d
+            - name: tls-vol
+              mountPath: /etc/nginx/baijiayun_certs
