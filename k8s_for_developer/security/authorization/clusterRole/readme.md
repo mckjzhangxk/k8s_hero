@@ -9,7 +9,7 @@ https://github.com/kodekloudhub/certified-kubernetes-administrator-course/blob/m
 
 
 ### 绑定对象的说明：
-* role ref
+* roleRef
     * namespaced:可以创建namespaced的**，比如 get pods,那所有namespace下的pod 都可以被查看
     * cluster scoped
 * subjects

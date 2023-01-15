@@ -12,4 +12,4 @@ kubectl auth can-i delete nodes
 kubectl auth can-i create deployments --as dev-user
 kubectl auth can-i create pod --as dev-user --namespace brtc-test-latest
 
-kubectl auth can-i delete nodes --as dev-user
+kubectl auth can-i delete nodes --as dev-user 

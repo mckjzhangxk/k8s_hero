@@ -40,3 +40,35 @@ kubectl api-resources|grep ingress
 kubeadm token create --print-join-command
 kubeadm reset # 加入前重置
 kubeadm join 10.16.31.253:6443 --token f05gvk.ljmh4fgjirr3i499 --discovery-token-ca-cert-hash sha256:da18e99aa8a87ac9cf1bf86ea2ffa0fafb10cf7cfeb85b24c1d01686f3633bf5
+
+
+
+kubectl run mongo --rm -it --image mongo -- sh
+
+mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo/admin?replicaSet=rs0
+kubectl expose pod mongo-0 -n beta-center --port 27017 --target-port 27017 --type NodePort
+kubectl expose pod mongo-1 -n beta-center  --port 27017 --target-port 27017 --type NodePort
+kubectl expose pod mongo-2 -n beta-center  --port 27017 --target-port 27017 --type NodePort
+mongo mongodb://114.67.101.90:32446,114.67.101.90:31915,114.67.101.90:32503
+mongosh mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo
+
+
+
+brew tap mongodb/brew
+brew install mongodb-community-shell
+
+
+kubectl run mongocli -n beta-center  --rm -it --image mongo -- sh
+
+kubectl expose pod mongodb-0 -n brtc-monitor --port 27017 --target-port 27017 --type NodePort
+kubectl expose pod mongodb-1 -n brtc-monitor  --port 27017 --target-port 27017 --type NodePort
+kubectl expose pod mongodb-2 -n brtc-monitor  --port 27017 --target-port 27017 --type NodePort
+mongosh mongodb://mongodb-0.mongodb,mongodb-1.mongodb,mongodb-2.mongodb
+
+//备份数据库
+mongodump --uri mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo
+//回复
+mongorestore --uri mongodb://mongodb-0.mongodb,mongodb-1.mongodb,mongodb-2.mongodb --drop dump
+
+mongo mongodb://114.67.101.90:32024,114.67.101.90:31154,114.67.101.90:30015
+ 

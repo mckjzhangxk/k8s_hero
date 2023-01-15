@@ -1,38 +1,33 @@
 //这个CI Demo 演示
-
+// 确保 git,docker都本机安装好！！！
 // 1 下载项目
 // 2 本地编译
 // 3 运行项目
 
 pipeline {
     agent any
-    //1.先按照go插件，go 插件用于下载特殊版本的 go，编译
-    //2.再再系统工具中添加 go 版本
-    // Ensure the desired Go version is installed for all stages,
-    // 可以再宿主机上安装 go,而不使用全局的 go
-    // tools { go '1.17' }
-
-    environment{
-        GO11MODULE='on'
-        GOPROXY='https://goproxy.cn'
-    }
     stages{
         stage('clone'){
             steps{
                 // sh 'go version'
-                // git 把所有的 都解压到/var/lib/jenkins/workspace,没有创建 go-webapp-sample
-                git "https://github.com/kodekloudhub/go-webapp-sample.git"
+                // git 把所有的 都解压到/var/lib/jenkins/workspace,没有创建 jekintest
+                git "https://gitee.com/mckj-zhangxk/jekintest.git"
             }
         }
 
         stage('build'){
             steps{
-                sh "go build ."
+                 //sh "go build -o main1 main.go"
+                 sh "./build.sh"
+                 sh 'docker login -u zhangxiaokai -p Bai2021 harbor.baijiayun.com'
+                 sh 'docker push harbor.baijiayun.com/sidecar/jekendemo:0.0.2'
             }
         }
         stage('run'){
             steps{
-                sh './go-webapp-sample &'
+                //sh 'ls'
+                sh 'docker run  --name=jekendemo-run harbor.baijiayun.com/sidecar/jekendemo:0.0.2'
+                sh 'docker logs jekendemo-run'
             }
         }
     }

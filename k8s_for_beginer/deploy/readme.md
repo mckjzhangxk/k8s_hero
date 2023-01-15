@@ -64,16 +64,32 @@ ETCD的Ha
 go 安装教程（https://zhuanlan.zhihu.com/p/453462046）
 registry.aliyuncs.com/google_containers
 
+docker容器初始化
+```
 kubeadm init --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers --kubernetes-version=v1.22.0  --apiserver-advertise-address=192.168.56.2 --pod-network-cidr=10.177.0.0/16 --service-cidr=10.175.0.0/16  --cri-socket=unix:///var/run/cri-dockerd.sock --node-name=kmaster
+```
 
 
+containerd容器初始化
+```
 kubeadm init --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers --apiserver-advertise-address=192.168.56.2 --pod-network-cidr=10.177.0.0/16 --cri-socket=/run/containerd/containerd.sock
+```
 
 
+手动拉镜像
+```
+kubeadm config images pull --kubernetes-version=v1.22.0 --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers
+```
 
-kubeadm config images pull --kubernetes-version=v1.22.0 --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers   --cri-socket=unix:///var/run/cri-dockerd.sock
+kubelet创建api-server,controller,schedular等static pod的时候需要镜像*registry.k8s.io/pause:3.6*：
+```
+docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.5 registry.k8s.io/pause:3.6
+```
 
 
-
+kubelet日志查看命令：
+```
+journalctl -xeu kubelet
+```
 kubeadm reset -f
 https://www.modb.pro/db/440445

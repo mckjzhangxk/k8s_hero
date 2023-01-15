@@ -10,3 +10,25 @@ spec:
     kind: Deployment
     name: nginx
   targetCPUUtilizationPercentage: 20 #相对limits的cpu的百分比
+
+---
+
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: msms-deployment
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: msms-deployment
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: Pods
+    pods:
+      metric:
+        name: container_network_receive_bytes_per_second
+      target:
+        type: AverageValue
+        averageValue: 1k

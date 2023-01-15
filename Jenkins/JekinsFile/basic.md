@@ -1,7 +1,7 @@
 1.jenkinsfile是如下结构组成的：
 
  pipeline ： 理解成 要执行的任务
-    agent   ：worker节点？
+    agent   ：worker节点？,从那里运行pipeline
     stages
         stage{} 每一个阶段
             steps 完成很阶段任务的 指令序列
