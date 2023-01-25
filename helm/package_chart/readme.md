@@ -1,7 +1,7 @@
 P160
 参考文档：https://docs.releng.linuxfoundation.org/en/latest/gpg.html
 https://www.linuxjournal.com/content/flat-file-encryption-openssl-and-gpg
-helm package ./foo-chart
+
 
 gpg 1.0
 ```
@@ -11,8 +11,13 @@ gpg 1.0
 老版格式  gpg
 新版格式v2：kbx
 
+以下中命令 baijiayun是uid.
+
+清理命令
+    gpg --delete-secret-keys  'baijiayun' 
+    gpg --delete-keys  'baijiayun' 
 版本的转换(helm需要老的版本)
-    gpg --export-secret-keys >./gpg-keys/secring.gpg //转换私钥！
+    gpg --export-secret-keys  'baijiayun'  >./gpg-keys/secring.gpg //转换私钥！
     gpg --export 'baijiayun' >./gpg-keys/publickey //转换公钥！
 生成密钥对：
     gpg -gen-key // 保存到/root/.gnupg/trustdb.gpg文件加密
@@ -38,7 +43,9 @@ helm 打包1.0
     //--keyring 私钥v1格式,secring.gpg是 转换后的私钥
 
     >生成 foo-chart.tgz.prov文件
-    >sha256sum foo-chart.tgz //验证foo-chart.tgz.prov 摘要hash
+    >sha256sum foo-chart.tgz //验证foo-chart.
+    >shasum -a 256 foo-chart.tgz   //mac上验证
+    tgz.prov 摘要hash
 验证签名：
      helm verify --keyring ./gpg-keys/publickey ./foo-chart-0.1.0.tgz
 

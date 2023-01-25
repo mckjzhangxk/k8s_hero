@@ -8,7 +8,7 @@ Agent 就是 帮 jenkins 执行 具体工作的 程序，它 可以
 
 jenkins只是告诉 agent，给我执行 pipeline,agent照做就是了。
 
-只有能运行java,就可以是一个agent
+只要能运行java,就可以是一个agent
 
 
 jenkins 需要先按照 SSH Build Agents 插件!!

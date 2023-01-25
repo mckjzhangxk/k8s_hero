@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: minio
+  namespace: kubesphere-system
+spec:
+  #与之对应的是 【自动创建】,比如 aws,gcp自动根据 pvc分配，
+  #创建匹配的 pv。不同provisioner 会对应不同 storageClass 参数
+  # 
+  # storageClassName: manual 
+
+  #实践证明 ：不同的storageClass对selector有不同的支持
+  # selector:
+    # matchLabels:
+    #   type: local
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20G

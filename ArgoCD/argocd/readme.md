@@ -1,3 +1,9 @@
+- [专业术语](#专业术语)
+- [安装argocd](#安装argocd)
+- [通过CLI访问](#通过cli访问)
+- [Declarative Setup](#declarative-setup)
+
+
 ### 专业术语
 | 名称| 解释| 
 | -  | -| 
@@ -45,11 +51,51 @@ argocd cluster list
 
 eg:
  argocd app create solar-system-app-2 \
-    --repo "https://3000-port-55025db2fd8f490f.labs.kodekloud.com/bob/gitops-argocd.git" \
+    --repo "https://gitee.com/mckj-zhangxk/argocd_demo.git" \
     --path "./solar-system" \
     --dest-namespace solar-system \
     --dest-server https://kubernetes.default.svc
 
 //手动同步部署
 argocd app sync [projectName] 
+
+// 删除，获取项目
+argocd app get [projectName] 
+argocd app delete [projectName] 
+```
+
+application.yaml
+###  Declarative Setup
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: geocentric-model-app
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+
+  source:
+    repoURL: git@gitee.com:mckj-zhangxk/argocd_demo.git
+    targetRevision: HEAD
+    path: ./declarative/manifests/geocentric-model
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: geocentric-model
+
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+```
+
+```sh
+# 安装程序
+kubectl apply -f application.yaml
+kubectl get applications -n argocd
 ```

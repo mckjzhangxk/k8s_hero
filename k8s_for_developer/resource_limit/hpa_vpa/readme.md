@@ -33,3 +33,6 @@ sh vpa-up.sh
 
  kubectl autoscale rc foo --max=5 --cpu-percent=80
  kubectl autoscale deployment foo --min=2 --max=10
+
+ [带宽扩容](https://hackernoon.com/how-to-use-prometheus-adapter-to-autoscale-custom-metrics-deployments-p1p3tl0)
+ [带宽扩容](https://github.com/kubernetes-sigs/prometheus-adapter/blob/master/docs/config-walkthrough.md)
