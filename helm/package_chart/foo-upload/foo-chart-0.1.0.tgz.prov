@@ -1,0 +1,26 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+apiVersion: v2
+appVersion: 1.16.0
+description: A Helm chart for Kubernetes
+name: foo-chart
+type: application
+version: 0.1.0
+
+...
+files:
+  foo-chart-0.1.0.tgz: sha256:7a8e04916c8db080c7b2d825e7a16889d3e5aec5ca30e73f26a822a207c2f5a9
+-----BEGIN PGP SIGNATURE-----
+
+wsDcBAEBCgAQBQJj0NfSCRCxqYgLtyNN5gAAAgsMACXIpatWup9QFZ8RJTq1POdS
+9l+5HtNH8QXe5lqilKvyMXHHyjXMb8/kIB8+GVhZobRGWTZJyd+VaIAQBgUPONzF
+a57W7dPsPBMpUZ/BVFap5Ndz+jCj6MXLAu2x1qJHWfDuMQ+odms5Nxo9TNZyB9fi
+WxV5aHNZCiIuXM7Vp1O7iuj1L6Bt+Amv68tRC6/zpY+Mv+9XFbMD5QmLQshI1UNl
+FUlZZOabFy7EdroWapprvfMMQTMaCR7m5BbP860RkTiAsHi22on9gdcQviECvSzj
+8NMaytk8gQ19TMBO1eL3h44QeeBlw9LbsB/sDONFpkjbVK68sdlWud9T4xW2ZaFs
+wnWmHADfoLeWBrVo9V85zvcJvi7llK2mpP+WWzP27KLOa1GCGDd7lZs5pOuG4Zah
+4p5aX32M+H5OdGdmOF1EB+jwmviKTgDbO/DBVG7JLjS8i1mUOaJ3UJxtTKzUn6Ci
+pExCpvNjXlmCoPUk4CLWb6RMfkl6uKZdrsnI/HfqrA==
+=uttw
+-----END PGP SIGNATURE-----

@@ -61,3 +61,12 @@ gpg --recv-keys --keyserver keyserver.ubuntu.com 8D40FE0CACC3FED4AD1C217180BA57A
 helm install --verify foo-chart-0.1.0
 
 ```
+
+上传chart
+```
+ mkdir foo-upload
+ mv foo.tgz foo.prov myfoo/
+ helm repo index foo-upload/ ./foo-upload --url=http://myexample.com
+
+ 把foo-upload下面的文件上传的云盘即可
+```
