@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rabbitmq
+  labels:
+    app: rabbitmq-deployment
+  namespace: bmcu
+spec:
+  replicas: 2
+  serviceName: rabbitmq   #必须制定serviceName
+  podManagementPolicy: Parallel #并发创建pod
+  template:
+    metadata:
+      name: rabbitmq
+      labels:
+        app: rabbitmq-pod
+    spec:
+      containers:
+        - name: rabbitmq
+          image: 'rabbitmq:3.11.2-management-alpine'
+          env:
+          - name: RABBITMQ_DEFAULT_VHOAST
+            value: /
+          - name: RABBITMQ_DEFAULT_USER
+            value: bjy-mcu
+          - name: RABBITMQ_DEFAULT_PASS
+            value: bjy-mcu
+  selector:
+    matchLabels:
+      app: rabbitmq-pod
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq
+  namespace: bmcu
+spec:
+  selector:
+    app: rabbitmq-pod
+  clusterIP: None
+  ports:
+    - name: mq-port
+      protocol: TCP
+      targetPort: 5672
+      port:  5672
+    - name: http-port
+      protocol: TCP
+      targetPort: 15672
+      port:  15672
+---

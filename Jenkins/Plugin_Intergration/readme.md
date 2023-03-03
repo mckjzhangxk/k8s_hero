@@ -13,7 +13,7 @@
     1) Go to Manage Jenkins -> Manager Plugins
     2) Click Available and search for the desired plugin.
     3) Select the desired plugin and Install.
-    Note: Few plugins may need a restart 
+    Note: Few plugins may needa  restart 
 
     //重启：enkins
     $ sudo systemctl restart jenkins
@@ -23,3 +23,6 @@
 
 
 * git 插件使用：https://plugins.jenkins.io/git/
+```
+
+```

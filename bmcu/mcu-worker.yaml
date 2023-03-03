@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-saas-vol
+  namespace: bmcu
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-deployment
+  namespace: bmcu
+  labels:
+    app: worker-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: worker-pod
+  template:
+    metadata:
+      labels:
+        app: worker-pod
+    spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      volumes:
+        - name: config-vol
+          configMap:
+            name: worker
+            items:
+              - key: index.js
+                path: index.js
+        - name: pvc-record-vol
+          persistentVolumeClaim:
+              claimName: pvc-record
+        - name: pvc-saas-vol
+          persistentVolumeClaim:
+              claimName:  pvc-saas-vol
+      containers:
+      - name: worker
+        image: registry.cn-beijing.aliyuncs.com/webrtc-mcu/mcu:20230207
+        env:
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                 fieldPath: status.podIP
+        volumeMounts:
+          - name: config-vol
+            mountPath: /root/mcu/configs
+          - name: pvc-record-vol
+            mountPath: /record
+          - name: pvc-saas-vol
+            mountPath: /bjy

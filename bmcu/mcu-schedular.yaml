@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: schedular-deployment
+  namespace: bmcu
+  labels:
+    app: schedular-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: schedular-pod
+  template:
+    metadata:
+      labels:
+        app: schedular-pod
+    spec:
+      volumes:
+        - name: config-vol
+          configMap:
+            name: schedular
+      containers:
+      - name: schedular
+        image: registry.cn-beijing.aliyuncs.com/webrtc-mcu/mcu-cluster:20230208
+        command: ["/bin/bash"]
+        args: ["-c","npm run scheduler"] #启动命令的参数
+        env:
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                 fieldPath: status.podIP
+        volumeMounts:
+          - name: config-vol
+            mountPath: /root/app/configs
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: schedular-service
+  namespace: bmcu
+spec:
+  type: NodePort
+  selector:
+    app: schedular-pod
+  ports:
+    - targetPort: 3000
+      port: 3000

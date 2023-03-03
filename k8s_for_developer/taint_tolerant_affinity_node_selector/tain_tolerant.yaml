@@ -8,6 +8,15 @@
 # taintEffect:【noSchedule，noExecute】
 # noExecute更加暴力，如果已经分配到的pod不 tolerate 这个node新
 # 加的taint,这个pod 会被evict!
+
+
+# kubectl get nodes -o json | jq '.items[].spec.taints'
+# kubectl get nodes -o jsonpath='{.items[0].spec.taints}'
+
+
+# Remove from node 'foo' all the taints with key 'dedicated'
+# kubectl taint nodes foo dedicated-
+
 apiVersion: v1
 kind: Pod
 metadata:

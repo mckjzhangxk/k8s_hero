@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-deployment
+  labels:
+    app: rabbitmq-deployment
+  namespace: bmcu
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: rabbitmq
+      labels:
+        app: rabbitmq-pod
+    spec:
+      containers:
+        - name: rabbitmq
+          image: 'rabbitmq:3.11.2-management-alpine'
+          env:
+          - name: RABBITMQ_DEFAULT_VHOAST
+            value: /
+          - name: RABBITMQ_DEFAULT_USER
+            value: bjy-mcu
+          - name: RABBITMQ_DEFAULT_PASS
+            value: bjy-mcu
+  selector:
+    matchLabels:
+      app: rabbitmq-pod
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-service
+  namespace: bmcu
+spec:
+  type: NodePort
+  selector:
+    app: rabbitmq-pod
+  ports:
+    - name: mq-port
+      protocol: TCP
+      targetPort: 5672
+      port:  5672
+    - name: http-port
+      protocol: TCP
+      targetPort: 15672
+      port:  15672
+---

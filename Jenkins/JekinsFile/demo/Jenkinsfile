@@ -1,0 +1,83 @@
+pipeline {
+  agent {
+    kubernetes {
+      yaml '''
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          labels:
+            some-label: some-label-value
+        spec:
+          volumes:
+            - name: host-vol
+              hostPath:
+                path: /var/run/docker.sock
+                type: ''
+          containers:
+          - name: maven
+            image: kubesphere/builder-maven:v3.1.0
+            command:
+            - cat
+            volumeMounts:
+              - name: host-vol
+                mountPath: /var/run/docker.sock
+            tty: true
+          - name: go
+            image: kubesphere/builder-go:v3.1.0
+            command:
+            - cat
+            volumeMounts:
+              - name: host-vol
+                mountPath: /var/run/docker.sock
+            tty: true
+          - name: nodejs
+            image: kubesphere/builder-nodejs:v3.1.0
+            command:
+            - cat
+            volumeMounts:
+              - name: host-vol
+                mountPath: /var/run/docker.sock
+            tty: true
+        '''
+    }
+  }
+    stages {
+        stage('clone') {
+            steps {
+              checkout scmGit(branches: [[name: '$BRANCH']], extensions: [], userRemoteConfigs: [[credentialsId: 'zhangxk', url: 'https://git.baijiashilian.com/cloud/BRTC/mpc.git']])
+            }
+        }
+        stage('build'){
+            steps{
+                    container('go') {
+                            sh 'docker build -t ${REPOSITORY_URL}/${PROJECT}:${TAG} .'
+                            sh 'docker login -u zhangxiaokai -p Bai2021 ${REPOSITORY_URL}'
+                            sh 'docker push ${REPOSITORY_URL}/${PROJECT}:${TAG}'
+                    }
+            }
+        }
+        stage('test'){
+            steps{
+                sh 'echo testing'
+                //sh 'go test -v ./...'
+            }
+        }
+        stage('deploy'){
+          steps {
+            container('go'){
+              script {
+                  withKubeConfig([credentialsId: 'kubeconfig',contextName: 'idc']) {
+                    sh "sed 's#REPOSITORY_AND_TAG#${REPOSITORY_URL}/${PROJECT}:${TAG}#g' patch.template.yaml > patch.yaml"
+                      // sh 'kubectl get nodes'
+                    sh "kubectl patch  deployment mpc-deployment -n test-sh --patch-file  patch.yaml"
+                    sh "kubectl patch  deployment mpc-deployment -n test-bj --patch-file  patch.yaml"
+                  }
+              }
+
+            }
+
+          }
+
+        }
+    }
+}

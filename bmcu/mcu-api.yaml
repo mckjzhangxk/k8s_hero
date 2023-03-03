@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+  namespace: bmcu
+  labels:
+    app: api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-pod
+  template:
+    metadata:
+      labels:
+        app: api-pod
+    spec:
+      volumes:
+        - name: config-vol
+          configMap:
+            name: api
+      containers:
+      - name: api
+        image: registry.cn-beijing.aliyuncs.com/webrtc-mcu/mcu-cluster:20230208
+        command: ["/bin/bash"]
+        args: ["-c","npm run api"] #启动命令的参数
+        env:
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                 fieldPath: status.podIP
+        volumeMounts:
+          - name: config-vol
+            mountPath: /root/app/configs
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-service
+  namespace: bmcu
+spec:
+  type: NodePort
+  selector:
+    app: api-pod
+  ports:
+    - targetPort: 3000
+      port: 3000

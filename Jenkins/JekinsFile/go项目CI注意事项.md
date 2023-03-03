@@ -31,3 +31,6 @@ git "https://github.com/kodekloudhub/go-webapp-sample.git"
     sh 'docker login -u zhangxiaokai -p Bai2021 harbor.baijiayun.com'
     sh 'docker push harbor.baijiayun.com/sidecar/jekendemo:0.0.2'
 ```
+
+7
+[k8s-jenkins](https://www.youtube.com/watch?v=ZXaorni-icg&t=1219s)

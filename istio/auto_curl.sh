@@ -6,3 +6,9 @@ do
   curl -sS "http://$INGRESS_HOST:$INGRESS_PORT/productpage"
 done
 
+
+
+while true
+do
+  echo "xx" >/dev/null
+done

@@ -1,0 +1,35 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sentinal-deployment
+  namespace: bmcu
+  labels:
+    app: sentinal-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sentinal-pod
+  template:
+    metadata:
+      labels:
+        app: sentinal-pod
+    spec:
+      volumes:
+        - name: config-vol
+          configMap:
+            name: sentinal
+      containers:
+      - name: sentinal
+        image: registry.cn-beijing.aliyuncs.com/webrtc-mcu/mcu-cluster:20230208
+        command: ["/bin/bash"]
+        args: ["-c","npm run sentinel"] #启动命令的参数
+        env:
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                 fieldPath: status.podIP
+        volumeMounts:
+          - name: config-vol
+            mountPath: /root/app/configs
