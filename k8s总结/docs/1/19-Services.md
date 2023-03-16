@@ -1,10 +1,7 @@
 # Kubernetes Services
 
 
-## Services
-- Kubernetes Services enables communication between various components within and outside of the application.
 
-  ![srv1](../../images/srv1.PNG)
   
 #### Let's look at some other aspects of networking
  ## Service Types
@@ -12,7 +9,9 @@
  #### There are 3 types of service types in kubernetes
  
    ![srv-types](../../images/srv-types.PNG)
-
+- ClusterIp内部的负载均衡器
+- NodePort 临时的外网访问方式
+- LoadBalancer slb代理，生产环境外网访问方式
 
 ```
 kubectl get svc -n test-sh mpc-service
@@ -53,57 +52,4 @@ curl http://10.16.31.253:39811/health
 
   ![srvc2](../../images/srvc2.PNG)
   
-#### To create a service of type ClusterIP
-```
-apiVersion: v1
-kind: Service
-metadata:
-  name: redis-service
-spec:
-  type: ClusterIp
-  ports:
-  - port: 6379
-    targetPort: 6379
-    protocol: TCP
-  selector:
-    app: redis
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: redis-service
-spec:
-  type: NodePort
-  ports:
-  - port: 6379
-    targetPort: 6379
-    protocol: TCP
-    nodePort: 3xxxx
-  selector:
-    app: redis
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: redis-service
-spec:
-  type: LoadBalancer
-  ports:
-  - port: 6379
-    targetPort: 6379
-    protocol: TCP
-    nodePort: 3xxxx
-  selector:
-    app: redis
-```
-```
-$ kubectl create -f service-definition.yaml
-```
-
-#### To list the services
-```
-$ kubectl get services
-```
-  ![srvc3](../../images/srvc3.PNG)
+  
