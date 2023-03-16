@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: puller-pod-demo
   namespace: test-sh
-  labels:
+  labels:  #important
     app: puller-pod-demo
 spec:
   containers:

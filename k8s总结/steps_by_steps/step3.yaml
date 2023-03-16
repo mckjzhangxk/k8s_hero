@@ -11,7 +11,7 @@ spec:
   template:
     metadata:
       name: puller-pod-demo
-      labels:
+      labels:  #important
         app: puller-pod-demo
     spec:
       containers:

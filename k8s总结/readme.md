@@ -3,11 +3,11 @@
 
   - [brtc服务架构](http://localhost:20001/kiali/console/graph/namespaces/?traffic=grpc%2CgrpcRequest%2Chttp%2ChttpRequest%2Ctcp%2CtcpSent&graphType=versionedApp&duration=60&refresh=60000&namespaces=test-sh&layout=kiali-dagre&namespaceLayout=kiali-dagre),[link](http://10.16.31.253:40976/zxk.sdp)
   - [Pods](docs/1/10-Pods.md)
+  - [环境变量](docs/4/07.Configure-Environment-Variables-in-Applications.md)
   - [ReplicaSets,Deployments](docs/1/13-ReplicaSets.md)
   - [Services,ClusterIP](docs/1/19-Services.md)
 - [应用生命周期](docs/05-Application-Lifecycle-Management)
   - [启动命令与参数](docs/4/05-Commands-and-Arguments-in-Kubernetes.md)
-  - [环境变量](docs/4/07.Configure-Environment-Variables-in-Applications.md)
   - [Init-Containers](docs/4/15.Init-Containers.md)
 - [调度](docs/03-Scheduling)
   - [Labels，Selectors](docs/3/04-Labels-and-Selectors.md)

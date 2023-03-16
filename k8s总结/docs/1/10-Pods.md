@@ -12,9 +12,10 @@
 
 pod特性：
 - pod内的 container共享 pod的volume
+- pod内的 container共享 pod的网络
+- pod 会被随机调度到node 【在不配置调度策略下】
 - container应用down 会被 pod拉起
 - pod 宕机 会被k8s拉起（replicaset）
-- pod内的 container共享 pod的网络
 
 
 
