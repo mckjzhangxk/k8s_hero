@@ -33,6 +33,19 @@ In this section, we will take a look at **Persistent Volumes**
 
 ![class-15](../../images/class15.PNG)
 
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-record
+  namespace: bmcu
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+```
 
 mcu.yaml
 ```yaml
