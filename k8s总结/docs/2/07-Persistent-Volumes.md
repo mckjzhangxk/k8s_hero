@@ -26,11 +26,11 @@ In this section, we will take a look at **Persistent Volumes**
 
 
 
-## Volume Storage Options
+## host Volume映射
 
-- In the volumes, hostPath volume type is fine with the single node. It's not recomended for use with the multi node cluster.
-- In the Kubernetes, it supports several types of standard storage solutions such as NFS, GlusterFS, CephFS or public cloud solutions like AWS EBS, Azure Disk or Google's Persistent Disk.
-
+- 时区同步: /etc/localtime 
+- 自动化打包:/var/run/docker.sock
+- node-shell:/
 ![class-15](../../images/class15.PNG)
 
 ```yaml
