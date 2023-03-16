@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: puller-pod-demo
+  namespace: test-sh
+  labels:
+    app: puller-pod-demo
+spec:
+  containers:
+    - name: puller
+      image: 'registry.cn-beijing.aliyuncs.com/bjy-webrtc/rtcs:v2023022002'
+      env:
+        - name: CONFIG_APOLLO_SECRET
+          value: 9d01995713a448bf9ad1b9db56f35e64
+        - name: CONFIG_APOLLO_URL
+          value: 'http://apollo-dev.baijiayun.com:8080'
+        - name: CONFIG_APOLLO_APPID
+          value: K8sConfig
+        - name: CONFIG_APOLLO_CLUSTER
+          value: DEV
+        - name: CONFIG_APOLLO_NAMESPACE
+          value: puller-demo.yaml
+        - name: CONFIG_APOLLO_BACKUP_PATH
+          value: ./
+# kubectl delete pod -n test-sh puller-pod-demo

@@ -1,0 +1,66 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: puller-deployment
+  namespace: test-sh
+  labels:
+    app: puller-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: puller-pod
+  template:
+    metadata:
+      name: puller
+      labels:
+        app: puller-pod
+    spec:
+      volumes:
+        - name: filebeat-vol
+          emptyDir: {}
+        - name: filebeat-conf
+          configMap:
+            name: filebeat
+      containers:
+        - name: puller
+          image: 'registry.cn-beijing.aliyuncs.com/bjy-webrtc/rtcs:v2023022002'
+          env:
+            - name: CONFIG_APOLLO_SECRET
+              value: 9d01995713a448bf9ad1b9db56f35e64
+            - name: CONFIG_APOLLO_URL
+              value: 'http://apollo-dev.baijiayun.com:8080'
+            - name: CONFIG_APOLLO_APPID
+              value: K8sConfig
+            - name: CONFIG_APOLLO_CLUSTER
+              value: DEV
+            - name: CONFIG_APOLLO_NAMESPACE
+              value: rtcs-puller-sh.yaml
+            - name: CONFIG_APOLLO_BACKUP_PATH
+              value: ./
+          volumeMounts:
+            - name: filebeat-vol
+              mountPath: /logs
+        - name: fealbeat
+          image: 'harbor.baijiayun.com/elk/filebeat_7.5.0:latest'
+          command:
+            - sh
+            - '-c'
+            - filebeat --path.config /conf -e -E name=$namespace$hostname
+          env:
+            - name: hostname
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+            - name: namespace
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+          volumeMounts:
+            - name: filebeat-conf
+              mountPath: /conf
+            - name: filebeat-vol
+              mountPath: /brtclogs
+

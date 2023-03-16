@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: puller-pod-demo
+  namespace: test-sh
+  labels:
+    app: puller-pod-demo
+spec:
+  containers:
+    - name: puller
+      image: 'registry.cn-beijing.aliyuncs.com/bjy-webrtc/rtcs:v2023022002'

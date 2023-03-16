@@ -1,0 +1,60 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: puller-demo-deployment
+  namespace: test-sh
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: puller-pod-demo
+  template:
+    metadata:
+      name: puller-pod-demo
+      labels:
+        app: puller-pod-demo
+    spec:
+      nodeSelector:
+        app: demo
+      volumes:
+        - name: filebeat-vol
+          emptyDir: {}
+        - name: filebeat-conf
+          configMap:
+            name: filebeat
+        - name: pvc-record-vol
+          persistentVolumeClaim:
+            claimName: pvc-puller-demo
+      containers:
+        - name: puller
+          image: 'registry.cn-beijing.aliyuncs.com/bjy-webrtc/rtcs:v2023022002'
+          env:
+            - name: CONFIG_APOLLO_SECRET
+              value: 9d01995713a448bf9ad1b9db56f35e64
+            - name: CONFIG_APOLLO_URL
+              value: 'http://apollo-dev.baijiayun.com:8080'
+            - name: CONFIG_APOLLO_APPID
+              value: K8sConfig
+            - name: CONFIG_APOLLO_CLUSTER
+              value: DEV
+            - name: CONFIG_APOLLO_NAMESPACE
+              value: puller-demo.yaml
+            - name: CONFIG_APOLLO_BACKUP_PATH
+              value: ./
+          volumeMounts:
+            - name: filebeat-vol
+              mountPath: /logs
+            - name: pvc-record-vol
+              mountPath: /mydata
+        - name: fealbeat
+          image: 'harbor.baijiayun.com/elk/filebeat_7.5.0:latest'
+          volumeMounts:
+            - name: filebeat-conf
+              mountPath: /conf
+            - name: filebeat-vol
+              mountPath: /brtclogs
+      tolerations:
+      - key: "app"
+        operator: "Equal"
+        value: "demo"
+        effect: "NoExecute"

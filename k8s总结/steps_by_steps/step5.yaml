@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: puller-demo-service
+  namespace: test-sh
+spec:
+  ports:
+    - protocol: TCP
+      port: 8992
+      targetPort: 8992
+  # selector:
+  #   app: puller-pod-demo
+  type: ClusterIP
