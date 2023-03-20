@@ -34,5 +34,5 @@ KubeAdam
 
     //启动命令的查看
     kubectl get pod -n kube-system kube-controller-manager-bjy-idc-brtc-laliu-test01 -o jsonpath='{.spec.containers[0].command}'|jq .
-    
+
 ```

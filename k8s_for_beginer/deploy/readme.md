@@ -93,3 +93,9 @@ journalctl -xeu kubelet
 ```
 kubeadm reset -f
 https://www.modb.pro/db/440445
+
+
+
+
+
+kubeadm init --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers --kubernetes-version=v1.21.0  --apiserver-advertise-address=10.16.40.25 --pod-network-cidr=192.168.0.0/16 --service-cidr=10.88.0.0/16
