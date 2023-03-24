@@ -13,7 +13,7 @@
   - [Labels，Selectors](docs/3/04-Labels-and-Selectors.md)
   - [污点](docs/03-Scheduling/11.Taints-and-Tolerations-vs-Node-Affinity.md)
   - [亲和，反亲和规则](docs/3/08-Node-Selectors.md)
-  
+    
 - [持久化](docs/08-Storage)
   - [Persistent-Volume-Claims](docs/2/07-Persistent-Volumes.md)
   - [Storage-Class](docs/2/12-Storage-Class.md)
