@@ -1,3 +1,11 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: worker
+  namespace: bmcu
+data:
+  index.js: "\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.configs = void 0;\nconst os = require(\"os\");\nconst configs = {\n    logLevel: \"info\",\n    kafkaBrokers: [],\n    kafkaTopicBrtc: 'rtc-message-test',\n    kafkaTopicBmcu: 'test-rtc-bmcu-message',\n    recordPathPrefix: \"/record\",\n    sasssRecordPathPrefix: \"/bjy\",\n\n    trtcSignalServer: \"\",\n    brtcVloudBrtcAppId: 'YG1O5y61cBcG0DNPRvvCXPBPVy8Gfd8e',\n    retryDelayPolicy: [100, 500, 1000],\n    numWorkers: 1,\n    workerSettings: {\n        log2debug: true,\n        enableWebrtcLog: false,\n        waterMarkFont: process.env.MCU_FONT || `fonts/font.ttf`,\n        coverPath: process.env.MCU_COVER_PATH || `fonts/640x360.png`,\n      \n    },\n    taskIdleTime : 1000 * 60 * 60 * 3, // 3 hours.\n    postProcessQueue: \"cloudproc\",\n    monitorNotify: \"monitor\",\n    cluster: {\n        purpose: \"mcu\",\n        scheduler: 'mcu-cluster-scheduler',\n        registry: 'mcu-cluster-registry',\n        join_retry: 60,\n        ip:process.env.POD_IP,\n        port: '12009',\n        load: {\n            period: 1000,\n            item: {\n                name: 'cpu'\n            }\n        },\n   },\n\n   rabbit: [\n\t\t{\n\t\t\tauth:\"bjy-mcu:bjy-mcu\",\n\t\t\turl:\"rabbitmq-0.rabbitmq:5672\",\n\t\t\tmonitorUrl: \"http://rabbitmq-0.rabbitmq:15672/api/health/checks/port-listener/5672\",\n\t\t},\n\t\t{\n\t\t\tauth:\"bjy-mcu:bjy-mcu\",\n\t\t\turl:\"rabbitmq-1.rabbitmq:5672\",\n\t\t\tmonitorUrl: \"http://rabbitmq-1.rabbitmq:15672/api/health/checks/port-listener/5672\",\n\t\t}\n   ],\n   redis: {\n           host: \"redis-service\",\n           port: 6379,\n           password: \"\"\n   },\n    mock: {\n            use: false,\n            count: 25,\n            responseDelay: 0, //ms\n    }\n}\nexports.configs = configs;"
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:

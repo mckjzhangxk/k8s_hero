@@ -1,3 +1,11 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: registry
+  namespace: bmcu
+data:
+  index.js: "\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.configs = void 0;\nconst configs = {\n    loglevel: \"info\",\n    ip: process.env.POD_IP,\n    port: 3000,\n    qps: 0,\n    qlCoefficient: 0,\n    service: \"registry\",\n    cluster: {\n        scheduler: 'mcu-cluster-scheduler',\n        registry: 'mcu-cluster-registry'\n    },\n    monitor: {\n        sentinel: \"sentinel\",\n        monitor: \"monitor\"\n    },\n    redis: {\n        host: \"redis-service\",\n        port: 6399,\n        password: \"\"\n    },\n    rabbit: [\n\t\t{\n\t\t\tauth:\"bjy-mcu:bjy-mcu\",\n\t\t\turl:\"rabbitmq-0.rabbitmq:5672\",\n\t\t\tmonitorUrl: \"http://rabbitmq-0.rabbitmq:15672/api/health/checks/port-listener/5672\",\n\t\t},\n\t\t{\n\t\t\tauth:\"bjy-mcu:bjy-mcu\",\n\t\t\turl:\"rabbitmq-1.rabbitmq:5672\",\n\t\t\tmonitorUrl: \"http://rabbitmq-1.rabbitmq:15672/api/health/checks/port-listener/5672\",\n\t\t}\n    ],\n    schedule: {\n        \"mcu\": 0.25,\n        \"mock-mcu\": 0.004,\n        \"asr\": 0.05,\n        \"pageRecord\": 0.1\n    }\n};\nexports.configs = configs;"
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:

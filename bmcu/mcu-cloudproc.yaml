@@ -1,3 +1,36 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: cloudproc
+  namespace: bmcu
+data:
+  conf.yaml: |-
+    ip: process.env.POD_IP,
+    http:
+      timeout: 10
+    oss:
+      al_bj_endpoint: "oss-cn-beijing.aliyuncs.com"
+      retry: 3
+      sign_url_expire_day: 180
+    bag:
+      url: "http://localhost:9442/bag/file/upload"
+    queue:
+      addr: "amqp://bjy-mcu:bjy-mcu@rabbitmq-0.rabbitmq:5672/"
+      name: "cloudproc"
+      count: 3
+    file:
+      prefix: "/tmp"
+    log:
+      level: "debug"
+    tmpDir: "/tmp"
+
+    retryPort: ":8003"
+
+    # notifyDingDing
+    notifyDingDing:
+      WebhookUrl: "59c71eff30937c5630c77ff9fd80064521ad7df9e20dc0a3004b10290e10de0d"
+      secret: "SEC678054b3b6bf0a4854e80971af369a33fe2b85b9a080d4ebc490542c0252b3e2"
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:

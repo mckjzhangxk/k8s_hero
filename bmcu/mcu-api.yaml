@@ -1,3 +1,12 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: api
+  namespace: bmcu
+data:
+  index.js: "\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.configs = void 0;\nconst configs = {\n\tloglevel: \"info\",\n\tip: process.env.POD_IP,\n\tport: 3000,\n\tqps: 0,\n\tqlCoefficient: 0,\n\tservice: \"api\",\n\tcluster: {\n\t\tscheduler: 'mcu-cluster-scheduler',\n\t\tregistry: 'mcu-cluster-registry'\n\t},\n\tmonitor: {\n\t\tsentinel: \"sentinel\",\n\t\tmonitor: \"monitor\"\n\t},\n\tredis: {\n\t\thost: \"redis-service\",\n\t\tport: 6379,\n\t\tpassword: \"\"\n\t},\n\trabbit: [\n\t\t{\n\t\t\tauth:\"bjy-mcu:bjy-mcu\",\n\t\t\turl:\"rabbitmq-0.rabbitmq:5672\",\n\t\t\tmonitorUrl: \"http://rabbitmq-0.rabbitmq:15672/api/health/checks/port-listener/5672\",\n\t\t},\n\t\t{\n\t\t\tauth:\"bjy-mcu:bjy-mcu\",\n\t\t\turl:\"rabbitmq-1.rabbitmq:5672\",\n\t\t\tmonitorUrl: \"http://rabbitmq-1.rabbitmq:15672/api/health/checks/port-listener/5672\",\n\t\t}\n\t],\n        rabbits: {\n                \"test-pro\": {\n                        limit: -1,\n                        priority: 0,\n                        enable: true,\n                        urls: [\n\t\t{\n\t\t\tauth:\"bjy-mcu:bjy-mcu\",\n\t\t\turl:\"rabbitmq-0.rabbitmq:5672\",\n\t\t\tmonitorUrl: \"http://rabbitmq-0.rabbitmq:15672/api/health/checks/port-listener/5672\",\n\t\t},\n\t\t{\n\t\t\tauth:\"bjy-mcu:bjy-mcu\",\n\t\t\turl:\"rabbitmq-1.rabbitmq:5672\",\n\t\t\tmonitorUrl: \"http://rabbitmq-1.rabbitmq:15672/api/health/checks/port-listener/5672\",\n\t\t}\n                        ]\n                },\n                \"test-latest\": {\n                        limit: 1,\n                        priority: 1,\n                        enable: true,\n                        urls: [\n\t\t{\n\t\t\tauth:\"bjy-mcu:bjy-mcu\",\n\t\t\turl:\"rabbitmq-0.rabbitmq:5672\",\n\t\t\tmonitorUrl: \"http://rabbitmq-0.rabbitmq:15672/api/health/checks/port-listener/5672\",\n\t\t},\n\t\t{\n\t\t\tauth:\"bjy-mcu:bjy-mcu\",\n\t\t\turl:\"rabbitmq-1.rabbitmq:5672\",\n\t\t\tmonitorUrl: \"http://rabbitmq-1.rabbitmq:15672/api/health/checks/port-listener/5672\",\n\t\t}\n                        ]\n                }\n        },\n\n\tschedule: {\n\t\t\"mcu\": 0.25,\n\t\t\"mock-mcu\": 0.004,\n\t\t\"asr\": 0.05,\n\t\t\"pageRecord\": 0.1\n\t}\n};\nexports.configs = configs;"
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
