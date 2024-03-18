@@ -1,0 +1,10 @@
+{
+    "registry-mirrors": [
+      "https://hub-mirror.c.163.com"
+    ],
+    "insecure-registries": [
+      "harbor.test.com:8999",
+      "0.0.0.0"
+    ],
+    "data-root":"/home/hack520/docker"
+  }

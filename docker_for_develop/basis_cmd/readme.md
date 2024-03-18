@@ -5,7 +5,7 @@ docker \<docker-object\> <sub-cmd> [options] [CMD/Argument]
 options: docker 子命令的参数
 Argument:  docker 容量内应用的参数
 
-================================================================================
+```sh
 Example:
 (1) docker  container create ubuntu --name myos
 (2) docker  container start myos
@@ -14,7 +14,8 @@ Example:
     docker container ls -q  //只显示id,很有用 的命令
 (4) docker container rename httpd webapp //重命名 容器
 
-================================================================================
+```
+
 run =create + run
 
     docker container run -itd ubuntu
@@ -29,5 +30,5 @@ B.终端 是负载输入输出的,把【输入】->[shell]->【输出】,把【�
 
 常用命令
 
-docker system info //可用于查看 cgroup,logging driver
+docker system info //可用于查看 cgroup,logging driver, Registry Mirrors
 docker version

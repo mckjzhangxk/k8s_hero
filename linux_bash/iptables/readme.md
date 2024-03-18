@@ -82,3 +82,36 @@ netcat -l 9999
 iptables  -t nat -A PREROUTING -p tcp  --dport 1024 -j DNAT --to-destination 172.18.0.2:9999
 
 ```
+
+
+
+##  FILTER 防火墙配置
+- INPUT: 收到的数据包dst_ip是本机
+- FORWARD:收到的数据包dst_ip不是本机，表示本机是一个转发节点，比如路由器。
+- OUTPUT 发出的数据包src_ip是本机
+```sh
+# A.icmp的禁用 
+
+# 加入到INPUT的第一条规则，允许icmp
+iptable -I INPUT 1 -p icmp -j ACCEPT
+# 删除
+iptable -D INPUT 1 -p icmp -j ACCEPT
+iptable -L INPUT
+
+
+# B.自定义规则的生成,没有尝试
+iptables -N MYCHAIN
+# 随便添加规则
+iptables -A MYCHAIN -s 192.168.1.100 -j ACCEPT
+# 输入流量中应用 MYCHAIN 中的规则
+iptables -I INPUT -j MYCHAIN
+
+
+# C.外网想访问内网
+# 外网-192.168.126.0/24 内网 -192.168.1.0/24
+# 设置外网机器 路由表
+ip route add 192.168.1.0/24 via   192.168.126.167
+# 内网机器(192.168.126.167)允许转发
+# eth0是来自外网192.168.126.0/24的流量
+iptables -I FORWARD 1 -i eth0 -j ACCEPT
+```
