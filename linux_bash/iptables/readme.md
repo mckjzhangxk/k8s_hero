@@ -4,7 +4,7 @@
 * Table: 内核中的表格，用于过滤处理进出入的数据包，常用的有filter,nat
 * Chain(Hook Point): 不同的表有不同的Chan,在这里 Chain中，一定一条一条的rule.
 ```
-常用：Nat表，PREROUTING,POSTROUTING,OUTPUT
+常用：Nat表，PREROUTING,POSTROUTING,OUTPUT,它的目的是修改数据包的源或目标地址
 
     eth0 -> |PREROUTING| ->app1
                 |          |
@@ -115,3 +115,6 @@ ip route add 192.168.1.0/24 via   192.168.126.167
 # eth0是来自外网192.168.126.0/24的流量
 iptables -I FORWARD 1 -i eth0 -j ACCEPT
 ```
+
+## Mangle 表:
+- 这个表主要用于修改数据包的头部信息
